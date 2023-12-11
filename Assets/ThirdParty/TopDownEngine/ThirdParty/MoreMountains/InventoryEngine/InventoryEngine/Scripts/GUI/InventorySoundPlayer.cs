@@ -95,7 +95,7 @@ namespace MoreMountains.InventoryEngine
 			{
 				case "error":
 					soundToPlay=ErrorFx;
-					volume=1f;
+					volume=0.5f;
 					break;
 				case "select":
 					soundToPlay=SelectionChangeFx;
@@ -107,28 +107,28 @@ namespace MoreMountains.InventoryEngine
 					break;
 				case "open":
 					soundToPlay=OpenFx;
-					volume=1f;
+                    volume = 0.5f; 
 					break;
 				case "close":
 					soundToPlay=CloseFx;
-					volume=1f;
-					break;
+                    volume = 0.5f;
+                    break;
 				case "move":
 					soundToPlay=MoveFX;
-					volume=1f;
-					break;
+                    volume = 0.5f;
+                    break;
 				case "use":
 					soundToPlay=UseFx;
-					volume=1f;
-					break;
+                    volume = 0.5f;
+                    break;
 				case "drop":
 					soundToPlay=DropFx;
-					volume=1f;
-					break;
+                    volume = 0.5f;
+                    break;
 				case "equip":
 					soundToPlay=EquipFx;
-					volume=1f;
-					break;
+                    volume = 0.5f;
+                    break;
 			}
 
 			if (soundToPlay!=null)

@@ -27,9 +27,9 @@ namespace MoreMountains.InventoryEngine
 		
 		#else
 		/// the key associated to the hotbar, that will trigger the action when pressed
-		public string HotbarKey;
+		public KeyCode HotbarKey;
 		/// the alt key associated to the hotbar
-		public string HotbarAltKey;	
+		public KeyCode HotbarAltKey;	
 		#endif
 		/// the action associated to the key or alt key press
 		public HotbarPossibleAction ActionOnKey	;
