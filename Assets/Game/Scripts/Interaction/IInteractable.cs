@@ -7,4 +7,5 @@ public interface IInteractable
     public void Interact();
     public bool Interactable { get; set; } //whether or not this trigger can be interacted with at the current moment
     public string InteractText { get; set; } //text to display when interacting with this trigger
+    public Transform objectTransform { get; }
 }

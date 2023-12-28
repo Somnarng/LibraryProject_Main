@@ -1,5 +1,5 @@
+using EPOOutline;
 using System.Collections.Generic;
-using System.Linq;
 using TMPro;
 using UnityEngine;
 
@@ -13,6 +13,7 @@ public class PlayerInteraction : MonoBehaviour
     private bool canInteract = true;
     private bool inInteractRange = false;
     private int count = 0;
+    public IInteractable object1;
 
     private void OnEnable()
     {
@@ -28,8 +29,6 @@ public class PlayerInteraction : MonoBehaviour
     {
         if (canInteract && inInteractRange)
         {
-            TextUpdater();
-
             if (Input.GetKeyDown(KeyCode.F))
             {
                 Interact();
@@ -41,14 +40,19 @@ public class PlayerInteraction : MonoBehaviour
 
     private void TextUpdater() //updates interaction text if the interactable object can be used and is NOT null.
     {
-        if (interactableObject[0].Interactable && interactableObject != null)
+        if (object1 == null)
         {
-           // interactText.text = $"{interactableObject[0].InteractText} (F)";
+            return;
+        }
+        else if (object1.Interactable)
+        {
+            //interactText.text = $"{object1.InteractText} (F)";
             //interactText.enabled = true;
+            if (object1.objectTransform.GetComponent<Outlinable>() != null) { object1.objectTransform.GetComponent<Outlinable>().enabled = true; }
         }
         else //or else the text will be disabled.
         {
-          //  interactText.enabled = false;
+            //  interactText.enabled = false;
         }
     }
 
@@ -56,33 +60,64 @@ public class PlayerInteraction : MonoBehaviour
     {
         if (collision.GetComponent<IInteractable>() != null)
         {
+            count++;
             interactableObject.Add(collision.GetComponent<IInteractable>());
             inInteractRange = true;
+            FindTarget();
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.GetComponent<IInteractable>() != null)
         {
+            count--;
             if (interactableObject.Contains(collision.GetComponent<IInteractable>()))
             {
                 interactableObject.Remove(collision.GetComponent<IInteractable>());
+                FindTarget();
             }
-            if (count == 0) { inInteractRange = false; }
+            if (count == 0)
+            {
+                inInteractRange = false;
+                if (collision.GetComponent<Outlinable>() != null) { collision.GetComponent<Outlinable>().enabled = false; }
+                object1 = null;
+            }
         }
     }
 
     private void Interact()
     {
-        if (canInteract && interactableObject.Count > 0)
+        if (canInteract && object1 != null)
         {
-            if (interactableObject[0].Interactable)
+            if (object1.Interactable)
             {
-                interactableObject[0].Interact();
+                object1.Interact();
             }
             else
             {
                 return;
+            }
+        }
+    }
+
+    void FindTarget() //looks for the gameobject in interactableObject with the smallest distance from the player. this gameobject will be the "selected" object for interactions.
+    {
+        float lowestDist = Mathf.Infinity;
+
+        for (int i = 0; i < interactableObject.Count; i++)
+        {
+            float dist = Vector3.Distance(interactableObject[i].objectTransform.position, transform.position);
+
+            if (dist < lowestDist && interactableObject[i].Interactable)
+            {
+                lowestDist = dist;
+                if (object1 != interactableObject[i])
+                {
+                    if (object1 != null && object1.objectTransform.GetComponent<Outlinable>() != null) { object1.objectTransform.GetComponent<Outlinable>().enabled = false; }
+                    object1 = interactableObject[i];
+                    TextUpdater();
+                }
+                Debug.Log(object1);
             }
         }
     }
