@@ -111,17 +111,6 @@ public class DayCycleHandler : MonoBehaviour
         }
     }
 
-    public void Save(ref DayCycleHandlerSaveData data)
-    {
-        //data.TimeOfTheDay = m_CurrentTimeOfTheDay;
-    }
-
-    public void Load(DayCycleHandlerSaveData data)
-    {
-        //m_CurrentTimeOfTheDay = data.TimeOfTheDay;
-        //StartingTime = m_CurrentTimeOfTheDay;
-    }
-
     public static void RegisterShadow(ShadowInstance shadow)
     {
 #if UNITY_EDITOR
@@ -214,51 +203,10 @@ public class DayCycleHandler : MonoBehaviour
 }
 
 [System.Serializable]
-public struct DayCycleHandlerSaveData
+public struct TimeManagerSaveData
 {
     public float TimeOfTheDay;
+    public int DayOfMonth;
+    public int MonthOfYear;
+    public int Year;
 }
-
-
-#if UNITY_EDITOR
-// Wrapping a custom editor between UNITY_EDITOR define check allow to keep it in the same 
-// file as this part will be stripped when building for standalone (where Editor class doesn't exist).
-// Don't forget to also wrap the UnityEditor using at the top of the file between those define check too.
-
-// Show a slider that allow to test a specific time to help define colors.
-[CustomEditor(typeof(DayCycleHandler))]
-class DayCycleEditor : Editor
-{
-    private DayCycleHandler m_Target;
-
-    public override VisualElement CreateInspectorGUI()
-    {
-        m_Target = target as DayCycleHandler;
-
-        var root = new VisualElement();
-
-        InspectorElement.FillDefaultInspector(root, serializedObject, this);
-
-        var slider = new Slider(0.0f, 1.0f);
-        slider.label = "Test time 0:00";
-        slider.RegisterValueChangedCallback(evt =>
-        {
-            m_Target.UpdateLight(evt.newValue);
-
-            slider.label = $"Test Time {TimeManager.GetTimeAsString(evt.newValue)} ({evt.newValue:F2})";
-            SceneView.RepaintAll();
-        });
-
-        //registering click event, it's very catch all but not way to do a change check for control change
-        root.RegisterCallback<ClickEvent>(evt =>
-        {
-            m_Target.UpdateLight(slider.value);
-            SceneView.RepaintAll();
-        });
-
-        root.Add(slider);
-
-        return root;
-    }
-}
-#endif

@@ -59,7 +59,7 @@ public class DayEvent : PropertyDrawer
             var maxProperty = property.FindPropertyRelative(nameof(DayEventHandler.DayEvent.EndTime));
 
             var slider = new MinMaxSlider(
-                $"Day range {TimeManager.GetTimeAsString(minProperty.floatValue)} - {TimeManager.GetTimeAsString(maxProperty.floatValue)}",
+                $"Day range {TimeManager.ConvertCustomTimeToString(minProperty.floatValue)} - {TimeManager.ConvertCustomTimeToString(maxProperty.floatValue)}",
                 minProperty.floatValue, maxProperty.floatValue, 0.0f, 1.0f);
 
             slider.RegisterValueChangedCallback(evt =>
@@ -70,7 +70,7 @@ public class DayEvent : PropertyDrawer
                 property.serializedObject.ApplyModifiedProperties();
 
                 slider.label =
-                    $"Day range {TimeManager.GetTimeAsString(minProperty.floatValue)} - {TimeManager.GetTimeAsString(maxProperty.floatValue)}";
+                    $"Day range {TimeManager.ConvertCustomTimeToString(minProperty.floatValue)} - {TimeManager.ConvertCustomTimeToString(maxProperty.floatValue)}";
             });
 
             var evtOnProperty = property.FindPropertyRelative(nameof(DayEventHandler.DayEvent.OnEvents));

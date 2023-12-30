@@ -1,7 +1,6 @@
-using Cinemachine;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
 
 /// <summary>
@@ -41,8 +40,6 @@ public class TimeManager : MonoBehaviour
     }
     public DayCycleHandler DayCycleHandler { get; set; }
     public WeatherSystem WeatherSystem { get; set; }
-    public CinemachineVirtualCamera MainCamera { get; set; }
-    public Tilemap WalkSurfaceTilemap { get; set; }
 
     // Will return the ratio of time for the current day between 0 (00:00) and 1 (23:59).
     public float CurrentDayRatio => m_CurrentTimeOfTheDay / DayDurationInSeconds;
@@ -51,12 +48,22 @@ public class TimeManager : MonoBehaviour
     [Min(1.0f)]
     public float DayDurationInSeconds;
     public float StartingTime = 0.0f;
+    public bool MilitaryTime = true;
+
+    [Header("Day settings")]
+    public int DaysInMonth;
+    public int MonthsInYear;
 
     private bool m_IsTicking;
 
     private List<DayEventHandler> m_EventHandlers = new();
 
     private float m_CurrentTimeOfTheDay;
+    private int m_CurrentDayOfMonth = 1;
+    private int m_CurrentMonthOfYear = 1;
+    private int m_CurrentYear = 1;
+
+    private int ratioMultiplier = 1;
 
     private void Awake()
     {
@@ -74,7 +81,6 @@ public class TimeManager : MonoBehaviour
             DayDurationInSeconds = 1.0f;
             Debug.LogError("The day length on the GameManager is set to 0, the length need to be set to a positive value");
         }
-
     }
 
     private void Start()
@@ -132,6 +138,39 @@ public class TimeManager : MonoBehaviour
         m_IsTicking = true;
     }
 
+    public void Save(ref TimeManagerSaveData data)
+    {
+        data.TimeOfTheDay = m_CurrentTimeOfTheDay;
+        data.DayOfMonth = m_CurrentDayOfMonth;
+        data.MonthOfYear = m_CurrentMonthOfYear;
+        data.Year = m_CurrentYear;
+    }
+
+    public void Load(TimeManagerSaveData data)
+    {
+        m_CurrentTimeOfTheDay = data.TimeOfTheDay;
+        StartingTime = m_CurrentTimeOfTheDay;
+        m_CurrentDayOfMonth = data.DayOfMonth;
+        m_CurrentMonthOfYear = data.MonthOfYear;
+        m_CurrentYear = data.Year;
+    }
+
+    public void ProgressDay()
+    {
+        m_CurrentDayOfMonth++;
+        if(m_CurrentDayOfMonth > DaysInMonth)
+        {
+            m_CurrentDayOfMonth = 1;
+            m_CurrentMonthOfYear++;
+        }
+        if(m_CurrentMonthOfYear > MonthsInYear)
+        {
+            m_CurrentMonthOfYear = 1;
+            m_CurrentYear++;
+        }
+        Debug.Log("Day:"+ m_CurrentDayOfMonth+ " Month:" + m_CurrentMonthOfYear + " Year:" +m_CurrentYear);
+    }
+
     /// <summary>
     /// Will return the current time as a string in format of "xx:xx" 
     /// </summary>
@@ -150,15 +189,33 @@ public class TimeManager : MonoBehaviour
     {
         var hour = GetHourFromRatio(ratio);
         var minute = GetMinuteFromRatio(ratio);
+        if (TimeManager.Instance.MilitaryTime == false) //if NOT using a 24hour clock, remove 12 hours if time goes over 12 to match standard clocks. Also adds AM/PM to time.
+        {
+            string period;
+            if (hour >= 12 && hour != 24) { period = "PM"; TimeManager.Instance.ratioMultiplier = 2; }
+            else { period = "AM"; TimeManager.Instance.ratioMultiplier = 1; }
+            if (hour > 12)
+            {
+                hour -= 12;
+            }
+            return $"{hour}:{minute:00} " + period;
 
-        return $"{hour}:{minute:00}";
+        }
+        return $"{hour}:{minute:00}"; 
     }
 
+    public static string ConvertCustomTimeToString(float ratio)
+    {
+        var hour = GetHourFromRatio(ratio);
+        var minute = GetMinuteFromRatio(ratio);
+        return $"{hour}:{minute:00}";
+    }
 
     public static int GetHourFromRatio(float ratio)
     {
         var time = ratio * 24.0f;
         var hour = Mathf.FloorToInt(time);
+        if (hour == 0) { hour = 24; }
 
         return hour;
     }
@@ -175,7 +232,7 @@ public class TimeManager : MonoBehaviour
     {
         foreach (var evt in handler.Events)
         {
-            if (evt.IsInRange(TimeManager.Instance.CurrentDayRatio))
+            if (evt.IsInRange(TimeManager.Instance.MilitaryTime ? TimeManager.Instance.CurrentDayRatio : TimeManager.Instance.CurrentDayRatio * TimeManager.Instance.ratioMultiplier))
             {
                 evt.OnEvents.Invoke();
             }
