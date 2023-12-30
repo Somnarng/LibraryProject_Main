@@ -171,8 +171,13 @@ public class TimeManager : MonoBehaviour
         Debug.Log("Day:"+ m_CurrentDayOfMonth+ " Month:" + m_CurrentMonthOfYear + " Year:" +m_CurrentYear);
     }
 
+    public void SetTime(float time)
+    {
+        m_CurrentTimeOfTheDay = time;
+    }
+
     /// <summary>
-    /// Will return the current time as a string in format of "xx:xx" 
+    /// Will return the current time as a string in format of "xx:xx" or "xx:xx AM/PM" if not using military time.
     /// </summary>
     /// <returns></returns>
     public string CurrentTimeAsString()
@@ -192,12 +197,13 @@ public class TimeManager : MonoBehaviour
         if (TimeManager.Instance.MilitaryTime == false) //if NOT using a 24hour clock, remove 12 hours if time goes over 12 to match standard clocks. Also adds AM/PM to time.
         {
             string period;
-            if (hour >= 12 && hour != 24) { period = "PM"; TimeManager.Instance.ratioMultiplier = 2; }
+            if (hour >= 12) { period = "PM"; TimeManager.Instance.ratioMultiplier = 2; }
             else { period = "AM"; TimeManager.Instance.ratioMultiplier = 1; }
             if (hour > 12)
             {
                 hour -= 12;
             }
+            else if(hour == 0) { hour = 12; }
             return $"{hour}:{minute:00} " + period;
 
         }
@@ -215,7 +221,6 @@ public class TimeManager : MonoBehaviour
     {
         var time = ratio * 24.0f;
         var hour = Mathf.FloorToInt(time);
-        if (hour == 0) { hour = 24; }
 
         return hour;
     }
@@ -232,7 +237,7 @@ public class TimeManager : MonoBehaviour
     {
         foreach (var evt in handler.Events)
         {
-            if (evt.IsInRange(TimeManager.Instance.MilitaryTime ? TimeManager.Instance.CurrentDayRatio : TimeManager.Instance.CurrentDayRatio * TimeManager.Instance.ratioMultiplier))
+            if (evt.IsInRange(TimeManager.Instance.MilitaryTime ? TimeManager.Instance.CurrentDayRatio : TimeManager.Instance.CurrentDayRatio * TimeManager.Instance.ratioMultiplier))//multiplies the current day ration by 2 if not using military time.
             {
                 evt.OnEvents.Invoke();
             }
