@@ -29,7 +29,7 @@ public class PlayerInteraction : MonoBehaviour
     {
         if (canInteract && inInteractRange)
         {
-            if (Input.GetKeyDown(KeyCode.F))
+            if (Input.GetButton("Interact"))
             {
                 Interact();
             }

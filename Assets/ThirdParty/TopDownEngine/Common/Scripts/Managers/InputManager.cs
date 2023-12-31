@@ -210,18 +210,11 @@ namespace MoreMountains.TopDownEngine
 		protected virtual void InitializeButtons()
 		{
 			ButtonList = new List<MMInput.IMButton> ();
-			ButtonList.Add(JumpButton = new MMInput.IMButton (PlayerID, "Jump", JumpButtonDown, JumpButtonPressed, JumpButtonUp));
 			ButtonList.Add(RunButton  = new MMInput.IMButton (PlayerID, "Run", RunButtonDown, RunButtonPressed, RunButtonUp));
 			ButtonList.Add(InteractButton = new MMInput.IMButton(PlayerID, "Interact", InteractButtonDown, InteractButtonPressed, InteractButtonUp));
-			ButtonList.Add(DashButton  = new MMInput.IMButton (PlayerID, "Dash", DashButtonDown, DashButtonPressed, DashButtonUp));
-			ButtonList.Add(CrouchButton  = new MMInput.IMButton (PlayerID, "Crouch", CrouchButtonDown, CrouchButtonPressed, CrouchButtonUp));
 			ButtonList.Add(SecondaryShootButton = new MMInput.IMButton(PlayerID, "SecondaryShoot", SecondaryShootButtonDown, SecondaryShootButtonPressed, SecondaryShootButtonUp));
 			ButtonList.Add(ShootButton = new MMInput.IMButton (PlayerID, "Shoot", ShootButtonDown, ShootButtonPressed, ShootButtonUp)); 
-			ButtonList.Add(ReloadButton = new MMInput.IMButton (PlayerID, "Reload", ReloadButtonDown, ReloadButtonPressed, ReloadButtonUp));
-			ButtonList.Add(SwitchWeaponButton = new MMInput.IMButton (PlayerID, "SwitchWeapon", SwitchWeaponButtonDown, SwitchWeaponButtonPressed, SwitchWeaponButtonUp));
 			ButtonList.Add(PauseButton = new MMInput.IMButton(PlayerID, "Pause", PauseButtonDown, PauseButtonPressed, PauseButtonUp));
-			ButtonList.Add(TimeControlButton = new MMInput.IMButton(PlayerID, "TimeControl", TimeControlButtonDown, TimeControlButtonPressed, TimeControlButtonUp));
-			ButtonList.Add(SwitchCharacterButton = new MMInput.IMButton(PlayerID, "SwitchCharacter", SwitchCharacterButtonDown, SwitchCharacterButtonPressed, SwitchCharacterButtonUp));
 		}
 
 		/// <summary>
@@ -229,13 +222,13 @@ namespace MoreMountains.TopDownEngine
 		/// </summary>
 		protected virtual void InitializeAxis()
 		{
-			_axisHorizontal = PlayerID+"_Horizontal";
-			_axisVertical = PlayerID+"_Vertical";
-			_axisSecondaryHorizontal = PlayerID+"_SecondaryHorizontal";
-			_axisSecondaryVertical = PlayerID+"_SecondaryVertical";
-			_axisShoot = PlayerID+"_ShootAxis";
-			_axisShootSecondary = PlayerID + "_SecondaryShootAxis";
-			_axisCamera = PlayerID + "_CameraRotationAxis";
+			_axisHorizontal = "Horizontal";
+			_axisVertical = "Vertical";
+			_axisSecondaryHorizontal = "SecondaryHorizontal";
+			_axisSecondaryVertical = "SecondaryVertical";
+			_axisShoot = "ShootAxis";
+			_axisShootSecondary = "SecondaryShootAxis";
+			_axisCamera = "CameraRotationAxis";
 		}
 
 		/// <summary>
@@ -254,9 +247,9 @@ namespace MoreMountains.TopDownEngine
 			if (!IsMobile && InputDetectionActive)
 			{	
 				SetMovement();	
-				SetSecondaryMovement ();
+				//SetSecondaryMovement ();
 				SetShootAxis ();
-				SetCameraRotationAxis();
+				//SetCameraRotationAxis();
 				GetInputButtons ();
 				GetLastNonNullValues();
 			}									
@@ -342,7 +335,7 @@ namespace MoreMountains.TopDownEngine
 		/// <summary>
 		/// Called every frame, if not on mobile, gets secondary movement values from input
 		/// </summary>
-		public virtual void SetSecondaryMovement()
+	/*	public virtual void SetSecondaryMovement()
 		{
 			if (!IsMobile && InputDetectionActive)
 			{
@@ -358,7 +351,7 @@ namespace MoreMountains.TopDownEngine
 				}
 				_secondaryMovement = ApplyCameraRotation(_secondaryMovement);
 			}
-		}
+		}*/
 
 		/// <summary>
 		/// Called every frame, if not on mobile, gets shoot axis values from input
@@ -375,13 +368,13 @@ namespace MoreMountains.TopDownEngine
 		/// <summary>
 		/// Grabs camera rotation input and stores it
 		/// </summary>
-		protected virtual void SetCameraRotationAxis()
+	/*	protected virtual void SetCameraRotationAxis()
 		{
 			if (!IsMobile)
 			{
 				_cameraRotationInput = Input.GetAxis(_axisCamera);	
 			}
-		}
+		}*/
 
 		/// <summary>
 		/// If you're using a touch joystick, bind your main joystick to this method

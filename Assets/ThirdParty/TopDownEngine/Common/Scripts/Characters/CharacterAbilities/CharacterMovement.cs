@@ -43,8 +43,11 @@ namespace MoreMountains.TopDownEngine
 		/// the speed of the character when it's walking
 		[Tooltip("the speed of the character when it's walking")]
 		public float WalkSpeed = 6f;
-		/// whether or not this component should set the controller's movement
-		[Tooltip("whether or not this component should set the controller's movement")]
+        /// the speed of the character when it's running
+        [Tooltip("the speed of the character when it's running")]
+        public float RunSpeed = 10f;
+        /// whether or not this component should set the controller's movement
+        [Tooltip("whether or not this component should set the controller's movement")]
 		public bool ShouldSetMovement = true;
 		/// the speed threshold after which the character is not considered idle anymore
 		[Tooltip("the speed threshold after which the character is not considered idle anymore")]
@@ -439,18 +442,18 @@ namespace MoreMountains.TopDownEngine
 
 			if (InterpolateMovementSpeed)
 			{
-				_movementSpeed = Mathf.Lerp(_movementSpeed, MovementSpeed * ContextSpeedMultiplier * MovementSpeedMultiplier, interpolationSpeed * Time.deltaTime);
+				_movementSpeed = Mathf.Lerp(_movementSpeed, (Input.GetButton("Run") ? RunSpeed : MovementSpeed) * ContextSpeedMultiplier * MovementSpeedMultiplier, interpolationSpeed * Time.deltaTime);
 			}
 			else
 			{
-				_movementSpeed = MovementSpeed * MovementSpeedMultiplier * ContextSpeedMultiplier;
+				_movementSpeed = (Input.GetButton("Run") ? RunSpeed : MovementSpeed) * MovementSpeedMultiplier * ContextSpeedMultiplier;
 			}
 
 			_movementVector *= _movementSpeed;
 
-			if (_movementVector.magnitude > MovementSpeed * ContextSpeedMultiplier * MovementSpeedMultiplier)
+			if (_movementVector.magnitude > (Input.GetButton("Run") ? RunSpeed : MovementSpeed) * ContextSpeedMultiplier * MovementSpeedMultiplier)
 			{
-				_movementVector = Vector3.ClampMagnitude(_movementVector, MovementSpeed);
+				_movementVector = Vector3.ClampMagnitude(_movementVector, Input.GetButton("Run") ? RunSpeed : MovementSpeed);
 			}
 
 			if ((_currentInput.magnitude <= IdleThreshold) && (_controller.CurrentMovement.magnitude < IdleThreshold))
