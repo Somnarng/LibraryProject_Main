@@ -29,7 +29,7 @@ public class PlayerInteraction : MonoBehaviour
     {
         if (canInteract && inInteractRange)
         {
-            if (Input.GetButton("Interact"))
+            if (Input.GetButtonDown("Interact"))
             {
                 Interact();
             }

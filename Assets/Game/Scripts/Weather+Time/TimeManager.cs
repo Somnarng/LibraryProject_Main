@@ -1,5 +1,5 @@
+using PixelCrushers.DialogueSystem;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -158,17 +158,43 @@ public class TimeManager : MonoBehaviour
     public void ProgressDay()
     {
         m_CurrentDayOfMonth++;
-        if(m_CurrentDayOfMonth > DaysInMonth)
+        if (m_CurrentDayOfMonth > DaysInMonth)
         {
             m_CurrentDayOfMonth = 1;
             m_CurrentMonthOfYear++;
         }
-        if(m_CurrentMonthOfYear > MonthsInYear)
+        if (m_CurrentMonthOfYear > MonthsInYear)
         {
             m_CurrentMonthOfYear = 1;
             m_CurrentYear++;
         }
-        Debug.Log("Day:"+ m_CurrentDayOfMonth+ " Month:" + m_CurrentMonthOfYear + " Year:" +m_CurrentYear);
+        Debug.Log("Day:" + m_CurrentDayOfMonth + " Month:" + m_CurrentMonthOfYear + " Year:" + m_CurrentYear);
+        UpdateDialogueVariables();
+    }
+
+    public void UpdateDialogueVariables()
+    {
+        DialogueLua.SetVariable("time.Day", m_CurrentDayOfMonth);
+        DialogueLua.SetVariable("time.Year", m_CurrentYear);
+
+        switch (m_CurrentMonthOfYear)
+        {
+            case 1:
+                DialogueLua.SetVariable("time.Month", "Spring");
+                break;
+            case 2:
+                DialogueLua.SetVariable("time.Month", "Summer");
+                break;
+            case 3:
+                DialogueLua.SetVariable("time.Month", "Fall");
+                break;
+            case 4:
+                DialogueLua.SetVariable("time.Month", "Winter");
+                break;
+            default:
+                DialogueLua.SetVariable("time.Month", "ERROR:MONTH_UNKNOWN");
+                break;
+        }
     }
 
     public void SetTime(float time)
@@ -203,11 +229,11 @@ public class TimeManager : MonoBehaviour
             {
                 hour -= 12;
             }
-            else if(hour == 0) { hour = 12; }
+            else if (hour == 0) { hour = 12; }
             return $"{hour}:{minute:00} " + period;
 
         }
-        return $"{hour}:{minute:00}"; 
+        return $"{hour}:{minute:00}";
     }
 
     public static string ConvertCustomTimeToString(float ratio)
