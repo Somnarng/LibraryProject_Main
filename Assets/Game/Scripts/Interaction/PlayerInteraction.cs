@@ -48,7 +48,7 @@ public class PlayerInteraction : MonoBehaviour
         {
             //interactText.text = $"{object1.InteractText} (F)";
             //interactText.enabled = true;
-            if (object1.objectTransform.GetComponent<Outlinable>() != null) { object1.objectTransform.GetComponent<Outlinable>().enabled = true; }
+            if (object1.objectTransform.GetComponentInParent<Outlinable>() != null) { object1.objectTransform.GetComponentInParent<Outlinable>().enabled = true; }
         }
         else //or else the text will be disabled.
         {
@@ -79,7 +79,7 @@ public class PlayerInteraction : MonoBehaviour
             if (count == 0)
             {
                 inInteractRange = false;
-                if (collision.GetComponent<Outlinable>() != null) { collision.GetComponent<Outlinable>().enabled = false; }
+                if (collision.transform.GetComponentInParent<Outlinable>() != null) { collision.transform.GetComponentInParent<Outlinable>().enabled = false; }
                 object1 = null;
             }
         }
@@ -113,7 +113,7 @@ public class PlayerInteraction : MonoBehaviour
                 lowestDist = dist;
                 if (object1 != interactableObject[i])
                 {
-                    if (object1 != null && object1.objectTransform.GetComponent<Outlinable>() != null) { object1.objectTransform.GetComponent<Outlinable>().enabled = false; }
+                    if (object1 != null && object1.objectTransform.GetComponentInParent<Outlinable>() != null) { object1.objectTransform.GetComponentInParent<Outlinable>().enabled = false; }
                     object1 = interactableObject[i];
                     TextUpdater();
                 }
