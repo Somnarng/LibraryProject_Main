@@ -6,17 +6,37 @@ public class ShelfInteract : MonoBehaviour, IInteractable
 {
     [SerializeField] private bool interactable;
     [SerializeField] private string interactText;
-    
+
+    private InventoryManager inventory;
+    private PopUpsManager popupsManager;
+
+    public List<string> shelvedBooks;
+
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        inventory = GameObject.FindObjectOfType<InventoryManager>();
+        popupsManager = GameObject.FindObjectOfType<PopUpsManager>();
+
+        //LOAD BLANK SPACES INTO SHELF
+        for (int space = 0; space < 6; space++)
+        {
+            shelvedBooks.Add("BLANK");
+        }
+    }
 
     public void Interact()
     {
-        StartCoroutine(OpenShelf());
+
+        popupsManager.OpenShelf(this);
     }
 
+    /**
     public IEnumerator OpenShelf()
     {
         yield return null;
-    }
+    }**/
 
     /**
     public IEnumerator Sleep()
@@ -37,11 +57,6 @@ public class ShelfInteract : MonoBehaviour, IInteractable
     public Transform objectTransform { get => gameObject.transform; }
 
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
     // Update is called once per frame
     void Update()
