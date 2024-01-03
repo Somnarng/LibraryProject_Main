@@ -197,7 +197,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4703451067142162, guid: b6993e89d9af3f64182a41c77cf345c2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 12.334076
+      value: 1.6766052
       objectReference: {fileID: 0}
     - target: {fileID: 4703451067142162, guid: b6993e89d9af3f64182a41c77cf345c2, type: 3}
       propertyPath: m_LocalPosition.y
@@ -31147,6 +31147,13 @@ MonoBehaviour:
   interactable: 1
   interactText: Stock Shelf
   shelvedBooks: []
+  blankBooks:
+  - {fileID: 11400000, guid: 9a53638f2d33a46c3b85ba55eec6c274, type: 2}
+  - {fileID: 11400000, guid: 9a53638f2d33a46c3b85ba55eec6c274, type: 2}
+  - {fileID: 11400000, guid: 9a53638f2d33a46c3b85ba55eec6c274, type: 2}
+  - {fileID: 11400000, guid: 9a53638f2d33a46c3b85ba55eec6c274, type: 2}
+  - {fileID: 11400000, guid: 9a53638f2d33a46c3b85ba55eec6c274, type: 2}
+  - {fileID: 11400000, guid: 9a53638f2d33a46c3b85ba55eec6c274, type: 2}
 --- !u!1 &432409973
 GameObject:
   m_ObjectHideFlags: 0
@@ -35146,7 +35153,7 @@ MonoBehaviour:
   - {fileID: 2127228106}
   - {fileID: 432409974}
   - {fileID: 747376066}
-  selectedBook: 
+  selectedBook: {fileID: 0}
   UnsortedBookGroup: {fileID: 1853973590}
   UnsortedBookButtonPrefab: {fileID: 1372779673992327262, guid: 8eb98d316ab9e4b6b8cfcfde7954e810,
     type: 3}

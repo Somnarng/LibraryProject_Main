@@ -10,8 +10,10 @@ public class ShelfInteract : MonoBehaviour, IInteractable
     private InventoryManager inventory;
     private PopUpsManager popupsManager;
 
-    public List<string> shelvedBooks;
+    public List<BookScript> shelvedBooks;
+    public List<BookScript> blankBooks;
 
+    //[SerializeField] BookScript blankBook;
 
     // Start is called before the first frame update
     void Start()
@@ -19,11 +21,30 @@ public class ShelfInteract : MonoBehaviour, IInteractable
         inventory = GameObject.FindObjectOfType<InventoryManager>();
         popupsManager = GameObject.FindObjectOfType<PopUpsManager>();
 
+       
+        for(int b = 0; b < blankBooks.Count; b++){
+            shelvedBooks.Add(blankBooks[b]);
+        }
+
+        /**
         //LOAD BLANK SPACES INTO SHELF
         for (int space = 0; space < 6; space++)
         {
-            shelvedBooks.Add("BLANK");
-        }
+            
+            //shelvedBooks.Add("BLANK");
+            BookScript blankSpace = Instantiate(blankBook);
+            Debug.Log("blank created: "+ space+" "+ blankSpace.name);
+            blankSpace.bookName = "BLANK";
+            shelvedBooks.Add(blankSpace);
+            blankBooks.Add(blankSpace);
+        }**/
+    }
+
+    public void enBlankenSpace(int which)
+    {
+        Debug.Log("enblanken " + which);
+        //shelvedBooks[which] = null;
+        shelvedBooks[which] = blankBooks[which];
     }
 
     public void Interact()
