@@ -25,6 +25,8 @@ public class BookScript : ScriptableObject
     public float bookBaseRating;
     public float bookActiveRating;
 
+    public float price;
+
 
     /**
     // Start is called before the first frame update

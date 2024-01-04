@@ -6,15 +6,17 @@ using TMPro;
 
 //referenced: https://forum.unity.com/threads/how-to-create-ui-button-dynamically.393160/
 
-public class PopUpsManager : MonoBehaviour
+public class ShelfMenuManager : MonoBehaviour
 {
     private InventoryManager inventory;
 
 
     //SHELF EDITING
     [SerializeField] private GameObject shelfEditor;
+
     //list of sprites to be displayed depending on shelf status
-    //[SerializeField] private Image shelfBackground;
+    [SerializeField] private Image shelfBackground;
+
     [SerializeField] private List<Button> bookSpaces;
     public BookScript selectedBook;
     private ShelfInteract theShelf;
@@ -44,7 +46,22 @@ public class PopUpsManager : MonoBehaviour
     
     private void DisplayBooks()
     {
-        //Debug.Log("DISPLAY BOOKS");
+        //displays the shelf's state
+        switch (theShelf.shelfState)
+        {
+            case 0:
+                shelfBackground.color = new Color(115, 62, 1);
+                break;
+            case 1:
+                shelfBackground.color = new Color(102, 31, 1);
+                break;
+            default:
+                shelfBackground.color = new Color(115, 62, 1);
+                Debug.Log("POPUPMANAGER SHELFSTATE FAILURE");
+                break;
+        }
+
+
         //display books depending on shelf's string
         int number = 0;
         foreach (BookScript space in theShelf.shelvedBooks)
@@ -65,36 +82,27 @@ public class PopUpsManager : MonoBehaviour
         //remove old buttons (THIS IS BAD FIX THIS)
         if(bookButtons!= null)
         {
+            bookButtons.RemoveRange(0, bookButtons.Count - 1);
+            /**
             while(bookButtons.Count!=0)
             {
-                Debug.Log("?");
-                //e.SetActive(false);
                 Button e = bookButtons[0];
                 bookButtons.Remove(e);
                 Destroy(e.gameObject);
-            }
+            }**/
         }
 
         //display unsorted books
  
         for(int book = 0; book < inventory.UnsortedBooks.Count; book++)
         {
-            //Debug.Log("unsorted book " + inventory.UnsortedBooks[book].bookName);
             Button newButton = null;
-            //newButton =  Instantiate(UnsortedBookButtonPrefab) as Button;
             newButton = Instantiate(UnsortedBookButtonPrefab);
-            //newButton.onClick.AddListener(() => this.SelectBook(booknum,inventory.UnsortedBooks[booknum]));
             newButton.transform.SetParent(UnsortedBookGroup.transform, false);
-
             
             bookButtons.Add(newButton);
             newButton.GetComponentInChildren<TextMeshProUGUI>().text = inventory.UnsortedBooks[book].bookName;
         }
-        /**
-        for(int a = 0; a < bookButtons.Count; a++)
-        {
-            bookButtons[a].onClick.AddListener(() => SelectBook(a));
-        }**/
 
         int a = 0;
         foreach(Button aButton in bookButtons)
@@ -109,17 +117,16 @@ public class PopUpsManager : MonoBehaviour
             Debug.Log("error too long");
             bookButtons.Remove(bookButtons[bookButtons.Count - 1]);
         }
-        //Debug.Log("check");
+        
     }
 
     //select a book to be added to the shelf
     public void SelectBook(int which)
     {
-        //which--;
         Debug.Log("which = " + which);
         Debug.Log("tried to select book! " + inventory.UnsortedBooks[which].bookName +" : "+ which); ;
         Debug.Log("unsorted books count: " + inventory.UnsortedBooks.Count);
-        //selectedBook = inventory.UnsortedBooks[which];
+        
         selectedBook = inventory.UnsortedBooks[which];
         foreach(Button b in bookButtons)
         {
@@ -135,20 +142,20 @@ public class PopUpsManager : MonoBehaviour
         if (theShelf.shelvedBooks[which].bookName != "BLANK")
         {
             ClearShelf(which);
-            Debug.Log("not blank!");
 
         }
-            //check that a book has been selected to be loaded
-            if (selectedBook != null)
-            {
+        //check that a book has been selected to be loaded
+        if (selectedBook != null)
+        {
+            //move book from inventory to shelf
+            theShelf.shelvedBooks[which] = selectedBook;
+            inventory.UnsortedBooks.Remove(selectedBook);
+            selectedBook = null;
 
+            //REMOVABLE 
+            theShelf.IncrementBookMovement();
 
-                //move book from inventory to shelf
-                theShelf.shelvedBooks[which] = selectedBook;
-                inventory.UnsortedBooks.Remove(selectedBook);
-                selectedBook = null;
-
-            }
+         }
         
 
         DisplayBooks();
@@ -158,10 +165,13 @@ public class PopUpsManager : MonoBehaviour
     //remove a book from a space on the shelf
     public void ClearShelf(int which)
     {
-        Debug.Log("clear method");
+        
         inventory.UnsortedBooks.Add(theShelf.shelvedBooks[which]);
-        //theShelf.shelvedBooks[which] = "BLANK";
         theShelf.enBlankenSpace(which);
+
+        //REMOVABLE 
+        theShelf.IncrementBookMovement();
+
         DisplayBooks();
     }
 
@@ -170,7 +180,7 @@ public class PopUpsManager : MonoBehaviour
     void Start()
     {
         inventory = GameObject.FindObjectOfType<InventoryManager>();
-        //bookButtons = null;
+        
         CloseShelf();
     }
 

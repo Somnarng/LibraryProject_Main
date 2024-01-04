@@ -8,7 +8,7 @@ public class InventoryManager : MonoBehaviour
     public List<BookScript> UnsortedBooks;
     public List<BookScript> BooksInInventory;
 
-    public int money;
+    public float money;
 
     public List<ShelfInteract> shelves;
 
@@ -29,16 +29,14 @@ public class InventoryManager : MonoBehaviour
         
         for(int oo = 0; oo<7; oo++)
         {
-            Debug.Log("created book! " + oo);
+            //Debug.Log("created book! " + oo);
             BookScript book = BookScript.CreateInstance<BookScript>();
             book.name = "Book" + oo;
             book.bookName = "Book " + oo;
+
             UnsortedBooks.Add(book);
             BooksInInventory.Add(book);
 
-            /**
-            UnsortedBooks.Add("Book " + oo);
-            BooksInInventory.Add("Book " + oo);**/
         }
     }
 }

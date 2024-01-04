@@ -1,17 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ShelfInteract : MonoBehaviour, IInteractable
 {
     [SerializeField] private bool interactable;
     [SerializeField] private string interactText;
 
+    //reference relevant managers
     private InventoryManager inventory;
-    private PopUpsManager popupsManager;
+    private ShelfMenuManager shelfMenu;
 
+    //lists for books (and blank spaces when shelf is empty)
     public List<BookScript> shelvedBooks;
     public List<BookScript> blankBooks;
+
+    //shelf state management
+    public int shelfState;
+    public int bookMovements;
 
     //[SerializeField] BookScript blankBook;
 
@@ -19,59 +26,85 @@ public class ShelfInteract : MonoBehaviour, IInteractable
     void Start()
     {
         inventory = GameObject.FindObjectOfType<InventoryManager>();
-        popupsManager = GameObject.FindObjectOfType<PopUpsManager>();
+        shelfMenu = GameObject.FindObjectOfType<ShelfMenuManager>();
 
-       
-        for(int b = 0; b < blankBooks.Count; b++){
+        shelfState = 0;
+        bookMovements = 0;
+
+        //LOAD BLANK SPACES INTO SHELF
+        for (int b = 0; b < blankBooks.Count; b++){
             shelvedBooks.Add(blankBooks[b]);
         }
 
-        /**
-        //LOAD BLANK SPACES INTO SHELF
-        for (int space = 0; space < 6; space++)
-        {
-            
-            //shelvedBooks.Add("BLANK");
-            BookScript blankSpace = Instantiate(blankBook);
-            Debug.Log("blank created: "+ space+" "+ blankSpace.name);
-            blankSpace.bookName = "BLANK";
-            shelvedBooks.Add(blankSpace);
-            blankBooks.Add(blankSpace);
-        }**/
     }
 
     public void enBlankenSpace(int which)
     {
         Debug.Log("enblanken " + which);
-        //shelvedBooks[which] = null;
+        
         shelvedBooks[which] = blankBooks[which];
+
+        //if all spots are clear, shelf is not disorganized (change shelfstate)
+        bool allClear = true;
+        foreach(BookScript b in shelvedBooks)
+        {
+            if(b.bookName != "BLANK")
+            {
+                allClear = false;
+            }
+        }
+        if (allClear)
+        {
+            ChangeShelfState(0);
+        }
+    }
+
+    //book movements add up to a shelf state change
+    public void IncrementBookMovement()
+    {
+        //arbitrary cap here, remove if statement if more states are added
+        if (shelfState == 0)
+        {
+            //this could be a boolean, but is a int switch in case we want more states later
+            bookMovements++;
+            if (bookMovements >= 10)
+            {
+                shelfState++;
+                bookMovements = 0;
+                ChangeShelfState(shelfState);
+                
+            }
+        }
+
+    }
+
+    //change appearance based on shelf state
+    public void ChangeShelfState(int state)
+    {
+        bookMovements = 0;
+
+        switch (shelfState)
+        {
+            case 0:
+                GetComponentInParent<Image>().color = new Color(115, 62, 1);
+                break;
+            case 1:
+                GetComponentInParent<Image>().color = new Color(102, 31, 1);
+                break;
+            default:
+                shelfState = 0;
+                GetComponentInParent<Image>().color = new Color(115, 62, 1);
+                break;
+        }
     }
 
     public void Interact()
     {
 
-        popupsManager.OpenShelf(this);
+        shelfMenu.OpenShelf(this);
     }
 
-    /**
-    public IEnumerator OpenShelf()
-    {
-        yield return null;
-    }**/
 
-    /**
-    public IEnumerator Sleep()
-    {
-        Debug.Log("Sleep Triggered");
-        MMFadeInEvent.Trigger(0.5f, MMTweenType.DefaultEaseInCubic);
-        TimeManager.Instance.Pause();
-        TimeManager.Instance.ProgressDay();
-        TimeManager.Instance.SetTime(timeToSet);
-        yield return new WaitForSeconds(0.7f);
-        MMFadeOutEvent.Trigger(0.5f, MMTweenType.DefaultEaseInCubic);
-        TimeManager.Instance.Resume();
-        yield return null;
-    }**/
 
     public bool Interactable { get { return interactable; } set { interactable = value; } }
     public string InteractText { get { return interactText; } set { interactText = value; } }
