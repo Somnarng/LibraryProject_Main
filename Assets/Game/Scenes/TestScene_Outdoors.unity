@@ -3895,55 +3895,6 @@ MonoBehaviour:
   CurrentTimeScale: 1
   TargetTimeScale: 1
   TestButton: 0
---- !u!1 &326880676
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 326880678}
-  - component: {fileID: 326880677}
-  m_Layer: 0
-  m_Name: TimeManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &326880677
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 326880676}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7aaabf1ce21bf941ac2b6e07aeeaa6d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DayDurationInSeconds: 120
-  StartingTime: 1
-  MilitaryTime: 0
-  DaysInMonth: 30
-  MonthsInYear: 4
---- !u!4 &326880678
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 326880676}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3.1966372, y: 0.08567023, z: -0.64527255}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &363560965
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5733,7 +5684,7 @@ MonoBehaviour:
     OnEvents:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 326880677}
+        - m_Target: {fileID: 0}
           m_TargetAssemblyTypeName: TimeManager, Assembly-CSharp
           m_MethodName: ProgressDay
           m_Mode: 1
@@ -7191,6 +7142,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shelfEditor: {fileID: 1692215395}
+  shelfBackground: {fileID: 0}
   bookSpaces:
   - {fileID: 1282414979}
   - {fileID: 1702104573}
@@ -33899,6 +33851,79 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Timer_Text: {fileID: 1921467335}
+--- !u!1001 &1966220276
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1160962816345714113, guid: b83e87e27c06465409437a86da0934fb,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 10.999498
+      objectReference: {fileID: 0}
+    - target: {fileID: 1160962816345714113, guid: b83e87e27c06465409437a86da0934fb,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 8.243155
+      objectReference: {fileID: 0}
+    - target: {fileID: 1160962816345714113, guid: b83e87e27c06465409437a86da0934fb,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1160962816345714113, guid: b83e87e27c06465409437a86da0934fb,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1160962816345714113, guid: b83e87e27c06465409437a86da0934fb,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1160962816345714113, guid: b83e87e27c06465409437a86da0934fb,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1160962816345714113, guid: b83e87e27c06465409437a86da0934fb,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1160962816345714113, guid: b83e87e27c06465409437a86da0934fb,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1160962816345714113, guid: b83e87e27c06465409437a86da0934fb,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1160962816345714113, guid: b83e87e27c06465409437a86da0934fb,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5344314114674196282, guid: b83e87e27c06465409437a86da0934fb,
+        type: 3}
+      propertyPath: m_Name
+      value: ExitDoor
+      objectReference: {fileID: 0}
+    - target: {fileID: 8880731416953697250, guid: b83e87e27c06465409437a86da0934fb,
+        type: 3}
+      propertyPath: LevelName
+      value: TestScene
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b83e87e27c06465409437a86da0934fb, type: 3}
 --- !u!1001 &1974508572
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -34067,7 +34092,7 @@ MonoBehaviour:
   RespawnDelay: 2
   DelayBeforeDeathScreen: 1
   UseLevelBounds: 1
-  LoadingSceneMode: 1
+  LoadingSceneMode: 0
   LoadingSceneName: LoadingScreen
   AdditiveLoadingSettings:
     LoadingSceneName: MMAdditiveLoadingScreen
@@ -34531,7 +34556,6 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1339021983}
-  - {fileID: 326880678}
   - {fileID: 84813904}
   - {fileID: 56035921}
   - {fileID: 1536057614}
@@ -34540,3 +34564,4 @@ SceneRoots:
   - {fileID: 816603189}
   - {fileID: 838462988}
   - {fileID: 1818696880}
+  - {fileID: 1966220276}

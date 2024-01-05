@@ -35,7 +35,7 @@ namespace MoreMountains.TopDownEngine
 		{
 			if (LevelManager.HasInstance)
 			{
-				LevelManager.Instance.GotoLevel(LevelName);
+                LevelManager.Instance.GotoLevel(LevelName);
 			}
 			else
 			{

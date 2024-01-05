@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using UnityEngine.Events;
 
 namespace MoreMountains.TopDownEngine
 {
@@ -24,6 +25,8 @@ namespace MoreMountains.TopDownEngine
 		/// The direction to face when moving to the next level
 		[Tooltip("The direction to face when moving to the next level")]
 		public Character.FacingDirections FacingDirection;
+        [Tooltip("A unityevent that fires when the function GoToNextLevel is triggered.")]
+        public UnityEvent TriggerEvent;
 
 		/// <summary>
 		/// Loads the next level and stores the target entry point index in the game manager
@@ -34,7 +37,7 @@ namespace MoreMountains.TopDownEngine
 			{
 				GameManager.Instance.StorePointsOfEntry(LevelName, PointOfEntryIndex, FacingDirection);
 			}
-			
+			TriggerEvent?.Invoke();
 			base.GoToNextLevel ();
 		}
 	}

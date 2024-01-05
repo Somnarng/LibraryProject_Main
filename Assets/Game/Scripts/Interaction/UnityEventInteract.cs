@@ -9,7 +9,7 @@ public class UnityEventInteract : MonoBehaviour, IInteractable
     [SerializeField] private bool interactable;
     [SerializeField] private string interactText;
     [SerializeField] public UnityEvent unityEvent;
-    [SerializeField] private float delay = 0f;
+    [SerializeField] private float delay = 0.1f;
     public void Interact()
     {
         Invoke("EventTrigger", delay);

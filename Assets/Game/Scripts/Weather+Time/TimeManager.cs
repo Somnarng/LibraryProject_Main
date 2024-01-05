@@ -2,13 +2,12 @@ using PixelCrushers.DialogueSystem;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 /// <summary>
-/// The GameManager is the entry point to all the game system. It's execution order is set very low to make sure
+/// The TimeManager is the entry point to all the game system. It's execution order is set very low to make sure
 /// its Awake function is called as early as possible so the instance if valid on other Scripts. 
 /// </summary>
 [DefaultExecutionOrder(-9999)]
-public class TimeManager : MonoBehaviour
+public class TimeManager : MonoBehaviour, IDataPersistence
 {
     private static TimeManager s_Instance;
 
@@ -40,6 +39,7 @@ public class TimeManager : MonoBehaviour
     }
     public DayCycleHandler DayCycleHandler { get; set; }
     public WeatherSystem WeatherSystem { get; set; }
+    public TimerUpdater TimerText { get; set; }
 
     // Will return the ratio of time for the current day between 0 (00:00) and 1 (23:59).
     public float CurrentDayRatio => m_CurrentTimeOfTheDay / DayDurationInSeconds;
@@ -67,8 +67,14 @@ public class TimeManager : MonoBehaviour
 
     private void Awake()
     {
+        if (s_Instance != null)
+        {
+            Destroy(this.gameObject);
+            return;
+        }
+
         s_Instance = this;
-        DontDestroyOnLoad(gameObject);
+        DontDestroyOnLoad(this.gameObject);
 
         m_IsTicking = true;
 
@@ -94,7 +100,6 @@ public class TimeManager : MonoBehaviour
         s_IsQuitting = true;
     }
 #endif
-
     private void Update()
     {
         if (m_IsTicking)
@@ -124,7 +129,9 @@ public class TimeManager : MonoBehaviour
             }
 
             if (DayCycleHandler != null)
-                DayCycleHandler.Tick();
+                DayCycleHandler.Tick(CurrentDayRatio);
+            if (TimerText != null)
+                TimerText.UpdateText(CurrentTimeAsString());
         }
     }
 
@@ -138,21 +145,21 @@ public class TimeManager : MonoBehaviour
         m_IsTicking = true;
     }
 
-    public void Save(ref TimeManagerSaveData data)
+    public void SaveData(ref PlayerStats data)
     {
-        data.TimeOfTheDay = m_CurrentTimeOfTheDay;
-        data.DayOfMonth = m_CurrentDayOfMonth;
-        data.MonthOfYear = m_CurrentMonthOfYear;
-        data.Year = m_CurrentYear;
+        data.timeOfTheDay = m_CurrentTimeOfTheDay;
+        data.dayOfMonth = m_CurrentDayOfMonth;
+        data.monthOfYear = m_CurrentMonthOfYear;
+        data.year = m_CurrentYear;
     }
 
-    public void Load(TimeManagerSaveData data)
+    public void LoadData(PlayerStats data)
     {
-        m_CurrentTimeOfTheDay = data.TimeOfTheDay;
+        m_CurrentTimeOfTheDay = data.timeOfTheDay;
         StartingTime = m_CurrentTimeOfTheDay;
-        m_CurrentDayOfMonth = data.DayOfMonth;
-        m_CurrentMonthOfYear = data.MonthOfYear;
-        m_CurrentYear = data.Year;
+        m_CurrentDayOfMonth = data.dayOfMonth;
+        m_CurrentMonthOfYear = data.monthOfYear;
+        m_CurrentYear = data.year;
     }
 
     public void ProgressDay()
@@ -208,7 +215,11 @@ public class TimeManager : MonoBehaviour
     /// <returns></returns>
     public string CurrentTimeAsString()
     {
-        return GetTimeAsString(CurrentDayRatio);
+        if (!MilitaryTime) { return GetTimeAsString(CurrentDayRatio); }
+        else
+        {
+            return GetMilitaryTimeAsString(CurrentDayRatio);
+        }
     }
 
     /// <summary>
@@ -216,24 +227,26 @@ public class TimeManager : MonoBehaviour
     /// </summary>
     /// <param name="ratio"></param>
     /// <returns></returns>
+    public static string GetMilitaryTimeAsString(float ratio)
+    {
+        var hour = GetHourFromRatio(ratio);
+        var minute = GetMinuteFromRatio(ratio);
+        return $"{hour}:{minute:00}";
+    }
+
     public static string GetTimeAsString(float ratio)
     {
         var hour = GetHourFromRatio(ratio);
         var minute = GetMinuteFromRatio(ratio);
-        if (TimeManager.Instance.MilitaryTime == false) //if NOT using a 24hour clock, remove 12 hours if time goes over 12 to match standard clocks. Also adds AM/PM to time.
+        string period;
+        if (hour >= 12) { period = "PM"; s_Instance.ratioMultiplier = 2; }
+        else { period = "AM"; s_Instance.ratioMultiplier = 1; }
+        if (hour > 12)
         {
-            string period;
-            if (hour >= 12) { period = "PM"; TimeManager.Instance.ratioMultiplier = 2; }
-            else { period = "AM"; TimeManager.Instance.ratioMultiplier = 1; }
-            if (hour > 12)
-            {
-                hour -= 12;
-            }
-            else if (hour == 0) { hour = 12; }
-            return $"{hour}:{minute:00} " + period;
-
+            hour -= 12;
         }
-        return $"{hour}:{minute:00}";
+        else if (hour == 0) { hour = 12; }
+        return $"{hour}:{minute:00} " + period;
     }
 
     public static string ConvertCustomTimeToString(float ratio)
@@ -263,7 +276,7 @@ public class TimeManager : MonoBehaviour
     {
         foreach (var evt in handler.Events)
         {
-            if (evt.IsInRange(TimeManager.Instance.MilitaryTime ? TimeManager.Instance.CurrentDayRatio : TimeManager.Instance.CurrentDayRatio * TimeManager.Instance.ratioMultiplier))//multiplies the current day ration by 2 if not using military time.
+            if (evt.IsInRange(s_Instance.MilitaryTime ? s_Instance.CurrentDayRatio : s_Instance.CurrentDayRatio * s_Instance.ratioMultiplier))//multiplies the current day ration by 2 if not using military time.
             {
                 evt.OnEvents.Invoke();
             }

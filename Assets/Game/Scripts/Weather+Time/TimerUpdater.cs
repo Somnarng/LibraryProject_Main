@@ -3,12 +3,25 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class TimerUpdater : MonoBehaviour
 {
     public TMP_Text Timer_Text;
-    void Update()
+    private void OnEnable()
     {
-        Timer_Text.text = TimeManager.Instance.CurrentTimeAsString();
+        SceneManager.sceneLoaded += UpdateTimeManager;   
+    }
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= UpdateTimeManager;
+    }
+    private void UpdateTimeManager(Scene scene, LoadSceneMode mode)
+    {
+        TimeManager.Instance.TimerText = this;
+    }
+    public void UpdateText(string text)
+    {
+        Timer_Text.text = text;
     }
 }

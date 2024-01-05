@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using MoreMountains.Tools;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
+using Palmmedia.ReportGenerator.Core.Parser.Analysis;
 
 namespace MoreMountains.Tools
 {	
@@ -77,7 +78,7 @@ namespace MoreMountains.Tools
 		/// <param name="sceneToLoad">Level name.</param>
 		public static void LoadScene(string sceneToLoad)
 		{
-			_sceneToLoad = sceneToLoad;					
+			_sceneToLoad = sceneToLoad;
 			Application.backgroundLoadingPriority = ThreadPriority.High;
 			if (LoadingScreenSceneName!=null)
 			{

@@ -46,7 +46,7 @@ public class DayCycleHandler : MonoBehaviour
     private List<ShadowInstance> m_Shadows = new();
     private List<LightInterpolator> m_LightBlenders = new();
 
-    private void Awake()
+    private void Start()
     {
         TimeManager.Instance.DayCycleHandler = this;
     }
@@ -55,9 +55,9 @@ public class DayCycleHandler : MonoBehaviour
     /// We use an explicit ticking function instead of update so the GameManager can potentially freeze or change how
     /// time pass
     /// </summary>
-    public void Tick()
+    public void Tick(float ratio)
     {
-        UpdateLight(TimeManager.Instance.CurrentDayRatio);
+        UpdateLight(ratio);
     }
 
     public void UpdateLight(float ratio)
