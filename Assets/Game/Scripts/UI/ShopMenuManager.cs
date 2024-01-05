@@ -17,6 +17,8 @@ public class ShopMenuManager : MonoBehaviour
     [SerializeField] GameObject NotEnoughMoneyWindow;
     [SerializeField] GameObject PurchaseDisplayWindow;
 
+    [SerializeField] TextMeshProUGUI moneyDisplay;
+    [SerializeField] TextMeshProUGUI costDisplay;
 
     //purchase display stuff
     [SerializeField] GameObject PurchaseDisplayPanel;
@@ -55,6 +57,14 @@ public class ShopMenuManager : MonoBehaviour
     //update what books are available, selected, etc
     public void UpdateDisplay()
     {
+        float z = 0;
+        for(int a = 0; a < BooksToBuy.Count; a++)
+        {
+            float holder = BooksToBuy[a].currentPrice;
+            z += holder;
+        }
+        costDisplay.text = "Total: " + z.ToString();
+        moneyDisplay.text = inventory.money.ToString();
 
     }
 
@@ -64,7 +74,7 @@ public class ShopMenuManager : MonoBehaviour
         float checkouttotal = 0;
         foreach(BookScript purchase in BooksToBuy)
         {
-            checkouttotal += purchase.price;
+            checkouttotal += purchase.currentPrice;
         }
 
         if (inventory.money < checkouttotal)

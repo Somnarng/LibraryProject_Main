@@ -25,7 +25,8 @@ public class BookScript : ScriptableObject
     public float bookBaseRating;
     public float bookActiveRating;
 
-    public float price;
+    public float basePrice;
+    public float currentPrice;
 
 
     /**
