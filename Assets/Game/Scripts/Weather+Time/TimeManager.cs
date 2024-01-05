@@ -7,36 +7,8 @@ using UnityEngine;
 /// its Awake function is called as early as possible so the instance if valid on other Scripts. 
 /// </summary>
 [DefaultExecutionOrder(-9999)]
-public class TimeManager : MonoBehaviour, IDataPersistence
+public class TimeManager : Singleton<TimeManager>, IDataPersistence
 {
-    private static TimeManager s_Instance;
-
-
-#if UNITY_EDITOR
-    //As our manager run first, it will also be destroyed first when the app will be exiting, which lead to s_Instance
-    //to become null and so will trigger another instantiate in edit mode (as we dynamically instantiate the Manager)
-    //so this is set to true when destroyed, so we do not reinstantiate a new one
-    private static bool s_IsQuitting = false;
-#endif
-    public static TimeManager Instance
-    {
-        get
-        {
-#if UNITY_EDITOR
-            if (!Application.isPlaying || s_IsQuitting)
-                return null;
-
-            if (s_Instance == null)
-            {
-                //in editor, we can start any scene to test, so we are not sure the game manager will have been
-                //created by the first scene starting the game. So we load it manually. This check is useless in
-                //player build as the 1st scene will have created the GameManager so it will always exists.
-                Instantiate(Resources.Load<TimeManager>("TimeManager"));
-            }
-#endif
-            return s_Instance;
-        }
-    }
     public DayCycleHandler DayCycleHandler { get; set; }
     public WeatherSystem WeatherSystem { get; set; }
     public TimerUpdater TimerText { get; set; }
@@ -65,17 +37,8 @@ public class TimeManager : MonoBehaviour, IDataPersistence
 
     private int ratioMultiplier = 1;
 
-    private void Awake()
+    protected override void OnAwake()
     {
-        if (s_Instance != null)
-        {
-            Destroy(this.gameObject);
-            return;
-        }
-
-        s_Instance = this;
-        DontDestroyOnLoad(this.gameObject);
-
         m_IsTicking = true;
 
         m_CurrentTimeOfTheDay = StartingTime;
@@ -94,12 +57,6 @@ public class TimeManager : MonoBehaviour, IDataPersistence
         m_CurrentTimeOfTheDay = StartingTime;
     }
 
-#if UNITY_EDITOR
-    private void OnDestroy()
-    {
-        s_IsQuitting = true;
-    }
-#endif
     private void Update()
     {
         if (m_IsTicking)
@@ -239,8 +196,8 @@ public class TimeManager : MonoBehaviour, IDataPersistence
         var hour = GetHourFromRatio(ratio);
         var minute = GetMinuteFromRatio(ratio);
         string period;
-        if (hour >= 12) { period = "PM"; s_Instance.ratioMultiplier = 2; }
-        else { period = "AM"; s_Instance.ratioMultiplier = 1; }
+        if (hour >= 12) { period = "PM"; TimeManager.Instance.ratioMultiplier = 2; }
+        else { period = "AM"; TimeManager.Instance.ratioMultiplier = 1; }
         if (hour > 12)
         {
             hour -= 12;
@@ -276,7 +233,7 @@ public class TimeManager : MonoBehaviour, IDataPersistence
     {
         foreach (var evt in handler.Events)
         {
-            if (evt.IsInRange(s_Instance.MilitaryTime ? s_Instance.CurrentDayRatio : s_Instance.CurrentDayRatio * s_Instance.ratioMultiplier))//multiplies the current day ration by 2 if not using military time.
+            if (evt.IsInRange(TimeManager.Instance.MilitaryTime ? TimeManager.Instance.CurrentDayRatio : TimeManager.Instance.CurrentDayRatio * TimeManager.Instance.ratioMultiplier))//multiplies the current day ration by 2 if not using military time.
             {
                 evt.OnEvents.Invoke();
             }
