@@ -40,7 +40,7 @@ public class ShelfInteract : MonoBehaviour, IInteractable
 
     public void enBlankenSpace(int which)
     {
-        Debug.Log("enblanken " + which);
+        //Debug.Log("enblanken " + which);
         
         shelvedBooks[which] = blankBooks[which];
 
@@ -50,11 +50,14 @@ public class ShelfInteract : MonoBehaviour, IInteractable
         {
             if(b.bookName != "BLANK")
             {
+                //Debug.Log("clear fail");
                 allClear = false;
             }
         }
+        Debug.Log("all clear: "+ allClear);
         if (allClear)
         {
+            Debug.Log("clear?");
             ChangeShelfState(0);
         }
     }
@@ -69,9 +72,9 @@ public class ShelfInteract : MonoBehaviour, IInteractable
             bookMovements++;
             if (bookMovements >= 10)
             {
-                shelfState++;
+                int state = shelfState + 1;
                 bookMovements = 0;
-                ChangeShelfState(shelfState);
+                ChangeShelfState(state);
                 
             }
         }
@@ -81,19 +84,22 @@ public class ShelfInteract : MonoBehaviour, IInteractable
     //change appearance based on shelf state
     public void ChangeShelfState(int state)
     {
+        Debug.Log("change state: " + state);
         bookMovements = 0;
 
-        switch (shelfState)
+        switch (state)
         {
             case 0:
-                GetComponentInParent<Image>().color = new Color(115, 62, 1);
+                shelfState = 0;
+                GetComponentInParent<SpriteRenderer>().color = new Color(.45f, .24f, 0f);
                 break;
             case 1:
-                GetComponentInParent<Image>().color = new Color(102, 31, 1);
+                shelfState = 1;
+                GetComponentInParent<SpriteRenderer>().color = new Color(.4f, .12f, 0f);
                 break;
             default:
                 shelfState = 0;
-                GetComponentInParent<Image>().color = new Color(115, 62, 1);
+                GetComponentInParent<SpriteRenderer>().color = new Color(.45f, .24f, 0f);
                 break;
         }
     }

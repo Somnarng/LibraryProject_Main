@@ -50,13 +50,15 @@ public class ShelfMenuManager : MonoBehaviour
         switch (theShelf.shelfState)
         {
             case 0:
-                shelfBackground.color = new Color(115, 62, 1);
+                shelfBackground.color = new Color(.45f, .24f, 0f);
+                Debug.Log("color change 1");
                 break;
             case 1:
-                shelfBackground.color = new Color(102, 31, 1);
+                shelfBackground.color = new Color(.4f, .12f, 0f);
+                Debug.Log("color change 2");
                 break;
             default:
-                shelfBackground.color = new Color(115, 62, 1);
+                shelfBackground.color = new Color(.45f, .24f, 0f);
                 Debug.Log("POPUPMANAGER SHELFSTATE FAILURE");
                 break;
         }
@@ -80,16 +82,16 @@ public class ShelfMenuManager : MonoBehaviour
         }
 
         //remove old buttons (THIS IS BAD FIX THIS)
-        if(bookButtons!= null)
+        if(bookButtons.Count!=0)
         {
-            bookButtons.RemoveRange(0, bookButtons.Count - 1);
-            /**
-            while(bookButtons.Count!=0)
+            //bookButtons.RemoveRange(0, bookButtons.Count - 1);
+
+            while (bookButtons.Count != 0)
             {
                 Button e = bookButtons[0];
                 bookButtons.Remove(e);
                 Destroy(e.gameObject);
-            }**/
+            }
         }
 
         //display unsorted books
@@ -123,9 +125,9 @@ public class ShelfMenuManager : MonoBehaviour
     //select a book to be added to the shelf
     public void SelectBook(int which)
     {
-        Debug.Log("which = " + which);
+        //Debug.Log("which = " + which);
         Debug.Log("tried to select book! " + inventory.UnsortedBooks[which].bookName +" : "+ which); ;
-        Debug.Log("unsorted books count: " + inventory.UnsortedBooks.Count);
+        // Debug.Log("unsorted books count: " + inventory.UnsortedBooks.Count);
         
         selectedBook = inventory.UnsortedBooks[which];
         foreach(Button b in bookButtons)
