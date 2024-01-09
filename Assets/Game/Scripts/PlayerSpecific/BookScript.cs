@@ -16,7 +16,7 @@ public class BookScript : ScriptableObject
     public Image bookImage;
 
     //a list of the book's genres (~2?)
-    public List<string> bookGenres;
+    public List<string> bookGenres = new List<string>();
 
     //the book's state - 0= good, 5= unreadable?
     public int bookState;
@@ -29,16 +29,17 @@ public class BookScript : ScriptableObject
     public float currentPrice;
 
 
-    /**
+   
     // Start is called before the first frame update
     void Start()
     {
+        //bookGenres = new List<string>();
         
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }**/
+    /**
+   // Update is called once per frame
+   void Update()
+   {
+       
+   }**/
 }

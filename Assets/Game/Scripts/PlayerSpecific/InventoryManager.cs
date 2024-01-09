@@ -34,6 +34,14 @@ public class InventoryManager : MonoBehaviour
             book.name = "Book" + oo;
             book.bookName = "Book " + oo;
 
+            book.basePrice = oo;
+            book.currentPrice = oo + 1;
+
+            book.bookDesc = "This is book " + oo;
+
+            book.bookGenres.Add("genre1");
+            book.bookGenres.Add("genre2");
+
             UnsortedBooks.Add(book);
             BooksInInventory.Add(book);
 

@@ -14,23 +14,33 @@ public class ShopMenuManager : MonoBehaviour
 
     //UI Panels
     [SerializeField] private GameObject ShopWindow;
-    [SerializeField] GameObject NotEnoughMoneyWindow;
-    [SerializeField] GameObject PurchaseDisplayWindow;
+    //[SerializeField] GameObject NotEnoughMoneyWindow;
+    //[SerializeField] GameObject PurchaseDisplayWindow;
 
     [SerializeField] TextMeshProUGUI moneyDisplay;
     [SerializeField] TextMeshProUGUI costDisplay;
 
     //purchase display stuff
     [SerializeField] GameObject PurchaseDisplayPanel;
-    [SerializeField] GameObject PurchaseDisplayPrefab;
-    private List<GameObject> purchaseDisplays;
+    [SerializeField] GameObject InventoryDisplayPanel;
+    [SerializeField] GameObject ShopDisplayPanel;
+    //[SerializeField] GameObject PurchaseDisplayPrefab;
+
+    [SerializeField] Button ShopButtonPrefab;
+
+    //lists track placement of buttons
+    private List<Button> purchaseDisplays = new List<Button>();
+    private List<Button> inventoryDisplays = new List<Button>();
+    private List<Button> shopDisplays = new List<Button>();
 
     //open the shop menu based what shop called this
     public void OpenShop(ShopInteract ts)
     {
         theShop = ts;
         ShopWindow.SetActive(true);
+
         UpdateDisplay();
+        CreateButtons();
     }
 
     //close the shop
@@ -65,6 +75,41 @@ public class ShopMenuManager : MonoBehaviour
         }
         costDisplay.text = "Total: " + z.ToString();
         moneyDisplay.text = inventory.money.ToString();
+        if (z > inventory.money)
+        {
+            costDisplay.color = Color.red;
+            moneyDisplay.color = Color.red;
+        }
+        else
+        {
+            costDisplay.color = Color.black;
+            moneyDisplay.color = Color.black;
+        }
+
+    }
+
+    public void CreateButtons()
+    {
+        
+        foreach(BookScript avaiB in theShop.availableBooks)
+        {
+            Button shopB = null;
+            shopB = Instantiate(ShopButtonPrefab);
+            shopB.GetComponent<ShopButtonDetailerScript>().GiveAnchors(InventoryDisplayPanel, ShopDisplayPanel, PurchaseDisplayPanel, this);
+            shopB.GetComponent<ShopButtonDetailerScript>().ShopButtonDetail(avaiB);
+            shopDisplays.Add(shopB);
+            shopB.GetComponent<ShopButtonDetailerScript>().MoveToShop();
+        }
+
+        foreach(BookScript invenB in inventory.BooksInInventory)
+        {
+            Button invB = null;
+            invB = Instantiate(ShopButtonPrefab);
+            invB.GetComponent<ShopButtonDetailerScript>().GiveAnchors(InventoryDisplayPanel, ShopDisplayPanel, PurchaseDisplayPanel, this);
+            invB.GetComponent<ShopButtonDetailerScript>().InventoryButtonDetail(invenB);
+            inventoryDisplays.Add(invB);
+            invB.GetComponent<ShopButtonDetailerScript>().MoveToInventory();
+        }
 
     }
 
@@ -74,14 +119,15 @@ public class ShopMenuManager : MonoBehaviour
         float checkouttotal = 0;
         foreach(BookScript purchase in BooksToBuy)
         {
-            checkouttotal += purchase.currentPrice;
+            float ch = purchase.currentPrice;
+            checkouttotal += ch;
         }
 
         if (inventory.money < checkouttotal)
         {
-            NotEnoughMoneyWindow.SetActive(true);
-
-            BooksToBuy.RemoveRange(0, BooksToBuy.Count - 1);
+            //NotEnoughMoneyWindow.SetActive(true);
+            
+            //BooksToBuy.RemoveRange(0, BooksToBuy.Count - 1);
 
         }
         else
@@ -94,13 +140,13 @@ public class ShopMenuManager : MonoBehaviour
     //show the player the purchases made
     public void DisplayPurchases()
     {
-        PurchaseDisplayWindow.SetActive(true);
+        //PurchaseDisplayWindow.SetActive(true);
 
         foreach(BookScript book in BooksToBuy)
         {
             //create a image showing bought book
-            GameObject bookDis = null;
-            bookDis = Instantiate(PurchaseDisplayPrefab);
+            Button bookDis = null;
+            bookDis = Instantiate(ShopButtonPrefab);
             bookDis.transform.SetParent(PurchaseDisplayPanel.transform, false);
 
             //show the purchase details
@@ -121,8 +167,8 @@ public class ShopMenuManager : MonoBehaviour
     //exit any popups
     public void ExitPopups()
     {
-        NotEnoughMoneyWindow.SetActive(false);
-        PurchaseDisplayWindow.SetActive(false);
+        //NotEnoughMoneyWindow.SetActive(false);
+        //PurchaseDisplayWindow.SetActive(false);
     }
 
     // Start is called before the first frame update
