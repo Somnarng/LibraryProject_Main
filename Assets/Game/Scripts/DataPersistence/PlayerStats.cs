@@ -13,7 +13,7 @@ public class PlayerStats
     public int year;
     public List<BookScript> UnsortedBooks;
     public List<BookScript> BooksInInventory;
-    public SerializableDictionary<int, ShelfInteract> ShelfData = new SerializableDictionary<int, ShelfInteract>();
+    public SerializableDictionary<int, ShelfInteract> ShelfData;
 
     public PlayerStats()
     { //sets default values
