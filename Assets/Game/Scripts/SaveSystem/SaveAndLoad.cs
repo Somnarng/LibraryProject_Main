@@ -15,6 +15,5 @@ public class SaveAndLoad : MonoBehaviour
     public void NewData()
     {
         DataPersistenceManager.Instance.NewGame();
-        DataPersistenceManager.Instance.LoadGame();
     }
 }

@@ -3,30 +3,19 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class DataPersistenceManager : MonoBehaviour
+public class DataPersistenceManager : Singleton<DataPersistenceManager>
 {
     [Header("File Storage Config")]
     [SerializeField] private string fileName;
     [SerializeField] private bool useEncryption;
 
-    public static DataPersistenceManager Instance { get; private set; }
-
     private PlayerStats playerStats;
     private List<IDataPersistence> dataPersistenceObjects;
     private FileDataHandler dataHandler;
 
-    private void Awake()
+    protected override void OnAwake()
     {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(this);
-            return;
-        }
-
-        Instance = this;
-        DontDestroyOnLoad(this.gameObject);
         this.dataHandler = new FileDataHandler(Application.persistentDataPath, fileName, useEncryption);
-
     }
     private void OnEnable()
     {
@@ -44,15 +33,16 @@ public class DataPersistenceManager : MonoBehaviour
 
     public void NewGame()
     {
-        this.playerStats = new PlayerStats();
+        playerStats = new PlayerStats();
         dataHandler.Save(playerStats);
+        LoadGame();
     }
     public void LoadGame()
     {
         //load from file using data handler
-        this.playerStats = dataHandler.Load();
+        playerStats = dataHandler.Load();
         //if no data, start new game
-        if (this.playerStats == null)
+        if (playerStats == null)
         {
             Debug.Log("Stats not found, starting new game");
             NewGame();

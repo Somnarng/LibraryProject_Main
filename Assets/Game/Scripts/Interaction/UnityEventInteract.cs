@@ -8,7 +8,7 @@ public class UnityEventInteract : MonoBehaviour, IInteractable
 {
     [SerializeField] private bool interactable;
     [SerializeField] private string interactText;
-    [SerializeField] public UnityEvent unityEvent;
+    [SerializeField] private UnityEvent unityEvent;
     [SerializeField] private float delay = 0.1f;
     public void Interact()
     {
@@ -17,7 +17,7 @@ public class UnityEventInteract : MonoBehaviour, IInteractable
 
    public void EventTrigger()
     {
-        unityEvent.Invoke();
+        unityEvent?.Invoke();
     }
 
     public bool Interactable { get { return interactable; } set { interactable = value; } }

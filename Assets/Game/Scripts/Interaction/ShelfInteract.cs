@@ -1,12 +1,12 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
+[System.Serializable]
 public class ShelfInteract : MonoBehaviour, IInteractable
 {
     [SerializeField] private bool interactable;
     [SerializeField] private string interactText;
+    public int shelfID; //MUST BE UNIQUE between shelves, used to save/load shelf data.
 
     //reference relevant managers
     private InventoryManager inventory;
@@ -17,44 +17,44 @@ public class ShelfInteract : MonoBehaviour, IInteractable
     public List<BookScript> blankBooks;
 
     //shelf state management
-    public int shelfState;
-    public int bookMovements;
+    public int shelfState = 0;
+    public int bookMovements = 0;
 
     //[SerializeField] BookScript blankBook;
+    private ShelfInteract shelfData;
 
-    // Start is called before the first frame update
     void Start()
     {
         inventory = GameObject.FindObjectOfType<InventoryManager>();
         shelfMenu = GameObject.FindObjectOfType<ShelfMenuManager>();
 
-        shelfState = 0;
-        bookMovements = 0;
-
         //LOAD BLANK SPACES INTO SHELF
-        for (int b = 0; b < blankBooks.Count; b++){
-            shelvedBooks.Add(blankBooks[b]);
+        if (shelvedBooks == null || shelvedBooks.Count == 0) //a check to ensure no books are already loaded on the shelves
+        {
+            for (int b = 0; b < blankBooks.Count; b++)
+            {
+                shelvedBooks.Add(blankBooks[b]);
+            }
         }
-
     }
 
     public void enBlankenSpace(int which)
     {
         //Debug.Log("enblanken " + which);
-        
+
         shelvedBooks[which] = blankBooks[which];
 
         //if all spots are clear, shelf is not disorganized (change shelfstate)
         bool allClear = true;
-        foreach(BookScript b in shelvedBooks)
+        foreach (BookScript b in shelvedBooks)
         {
-            if(b.bookName != "BLANK")
+            if (b.bookName != "BLANK")
             {
                 //Debug.Log("clear fail");
                 allClear = false;
             }
         }
-        Debug.Log("all clear: "+ allClear);
+        Debug.Log("all clear: " + allClear);
         if (allClear)
         {
             Debug.Log("clear?");
@@ -75,7 +75,7 @@ public class ShelfInteract : MonoBehaviour, IInteractable
                 int state = shelfState + 1;
                 bookMovements = 0;
                 ChangeShelfState(state);
-                
+
             }
         }
 
@@ -121,6 +121,7 @@ public class ShelfInteract : MonoBehaviour, IInteractable
     // Update is called once per frame
     void Update()
     {
-        
+
     }
+
 }

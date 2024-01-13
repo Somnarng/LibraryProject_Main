@@ -134,6 +134,7 @@ public class TimeManager : Singleton<TimeManager>, IDataPersistence
         }
         Debug.Log("Day:" + m_CurrentDayOfMonth + " Month:" + m_CurrentMonthOfYear + " Year:" + m_CurrentYear);
         UpdateDialogueVariables();
+        DataPersistenceManager.Instance.SaveGame();
     }
 
     public void UpdateDialogueVariables()
