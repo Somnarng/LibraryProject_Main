@@ -12,12 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac5f184a558844fba8bdd2a53d3e4be6, type: 3}
   m_Name: BoxcarChildren
   m_EditorClassIdentifier: 
-  bookName: 
-  bookDesc: 
+  bookName: The Boxcar Children
+  bookDesc: buncha kids run away to live in a boxcar
   bookImage: {fileID: 0}
-  bookGenres: []
+  bookGenres:
+  - mystery
   bookState: 0
   bookBaseRating: 0
   bookActiveRating: 0
-  basePrice: 0
-  currentPrice: 0
+  basePrice: 2
+  currentPrice: 2

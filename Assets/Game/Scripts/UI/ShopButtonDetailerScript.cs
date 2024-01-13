@@ -150,6 +150,7 @@ public class ShopButtonDetailerScript : MonoBehaviour
         this.GetComponent<Button>().onClick.AddListener(MoveToShop);
 
         CartButtonDetail(theBook);
+        shopManager.PickBook(theBook, this.gameObject.GetComponent<Button>());
     }
 
     public void MoveToShop()
@@ -159,6 +160,7 @@ public class ShopButtonDetailerScript : MonoBehaviour
         this.GetComponent<Button>().onClick.AddListener(MoveToCart);
 
         ShopButtonDetail(theBook);
+        shopManager.PickBook(theBook, this.gameObject.GetComponent<Button>());
     }
 
     // Start is called before the first frame update

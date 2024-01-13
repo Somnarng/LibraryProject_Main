@@ -12,12 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac5f184a558844fba8bdd2a53d3e4be6, type: 3}
   m_Name: BakingBook
   m_EditorClassIdentifier: 
-  bookName: 
-  bookDesc: 
+  bookName: Baking Book
+  bookDesc: how to bake
   bookImage: {fileID: 0}
-  bookGenres: []
+  bookGenres:
+  - recipe
   bookState: 0
   bookBaseRating: 0
   bookActiveRating: 0
-  basePrice: 0
-  currentPrice: 0
+  basePrice: 3
+  currentPrice: 3
