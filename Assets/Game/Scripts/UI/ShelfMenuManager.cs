@@ -151,6 +151,7 @@ public class ShelfMenuManager : MonoBehaviour
         {
             //move book from inventory to shelf
             theShelf.shelvedBooks[which] = selectedBook;
+            theShelf.shelvedBookIDs[which] = selectedBook.bookId;
             inventory.UnsortedBooks.Remove(selectedBook);
             selectedBook = null;
 

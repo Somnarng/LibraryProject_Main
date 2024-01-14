@@ -14,6 +14,7 @@ public class ShelfInteract : MonoBehaviour, IInteractable
 
     //lists for books (and blank spaces when shelf is empty)
     public List<BookScript> shelvedBooks;
+    public List<int> shelvedBookIDs;
     public List<BookScript> blankBooks;
 
     //shelf state management
@@ -21,7 +22,6 @@ public class ShelfInteract : MonoBehaviour, IInteractable
     public int bookMovements = 0;
 
     //[SerializeField] BookScript blankBook;
-    private ShelfInteract shelfData;
 
     void Start()
     {
@@ -34,6 +34,7 @@ public class ShelfInteract : MonoBehaviour, IInteractable
             for (int b = 0; b < blankBooks.Count; b++)
             {
                 shelvedBooks.Add(blankBooks[b]);
+                shelvedBookIDs.Add(blankBooks[b].bookId);
             }
         }
     }
@@ -43,6 +44,7 @@ public class ShelfInteract : MonoBehaviour, IInteractable
         //Debug.Log("enblanken " + which);
 
         shelvedBooks[which] = blankBooks[which];
+        shelvedBookIDs[which] = blankBooks[which].bookId;
 
         //if all spots are clear, shelf is not disorganized (change shelfstate)
         bool allClear = true;

@@ -15,11 +15,8 @@ public class DataPersistenceManager : Singleton<DataPersistenceManager>
 
     protected override void OnAwake()
     {
-        this.dataHandler = new FileDataHandler(Application.persistentDataPath, fileName, useEncryption);
-    }
-    private void OnEnable()
-    {
         SceneManager.sceneLoaded += OnSceneLoaded;
+        this.dataHandler = new FileDataHandler(Application.persistentDataPath, fileName, useEncryption);
     }
     private void OnDisable()
     {

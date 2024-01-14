@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bookName: The Boxcar Children
   bookDesc: buncha kids run away to live in a boxcar
+  bookId: 7
   bookImage: {fileID: 0}
   bookGenres:
   - mystery

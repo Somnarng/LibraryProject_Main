@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bookName: Baking Book
   bookDesc: how to bake
+  bookId: 8
   bookImage: {fileID: 0}
   bookGenres:
   - recipe

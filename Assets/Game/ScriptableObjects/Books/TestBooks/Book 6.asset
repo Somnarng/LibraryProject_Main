@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bookName: Book6
   bookDesc: This is book 6
+  bookId: 6
   bookImage: {fileID: 0}
   bookGenres:
   - genre1

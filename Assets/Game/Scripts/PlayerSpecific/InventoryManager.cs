@@ -8,7 +8,6 @@ public class InventoryManager : MonoBehaviour, IDataPersistence
     public List<BookScript> BooksInInventory;
     public bool debugInventory; //toggle false on if you want to save the inventory or true to always keep the base 6 books
 
-    private ShelfInteract shelfData;
 
     public float money;
 
@@ -57,19 +56,15 @@ public class InventoryManager : MonoBehaviour, IDataPersistence
     {
         foreach (KeyValuePair<int, ShelfInteract> iSI in data.ShelfData) //searches through the dictionary list for every shelfdata saved, compares to current shelfdata on inventory manager.
         {
-            print(data.ShelfData);
-            data.ShelfData.TryGetValue(iSI.Key, out ShelfInteract sD);
-            shelfData = sD;
-            foreach (ShelfInteract shelfInteract in shelves)
+            if(shelves == null) { return; }
+            for (int i = 0; i < shelves.Count; i++)
             {
-                //  if (shelfInteract.shelfID != shelfData.shelfID) { return; } //there is some null ref exception here that is causing the entire save to not work and I DONT KNOW WHY PLEASE GOD JUST SMITE THIS STUPID EXCEPTION
-                //else
-                // {
-                shelfInteract.shelvedBooks = shelfData.shelvedBooks;
-                shelfInteract.shelfState = shelfData.shelfState;
-                shelfInteract.bookMovements = shelfData.bookMovements;
-                Debug.Log("Shelfdata loaded " + shelfInteract.shelfID);//if the shelf data id matches, the saved data is written onto the shelf.
-                                                                       //      }
+                if (iSI.Value.shelfID.Equals(shelves[i].shelfID))
+                {
+                    shelves[i].shelvedBookIDs = iSI.Value.shelvedBookIDs;
+                    shelves[i].shelfState = iSI.Value.shelfState;
+                    shelves[i].bookMovements = iSI.Value.bookMovements;
+                }
             }
         }
 
@@ -86,6 +81,7 @@ public class InventoryManager : MonoBehaviour, IDataPersistence
             {
                 data.ShelfData.Remove(SI.shelfID);
             }
+
             data.ShelfData.Add(SI.shelfID, SI);
         }
 
