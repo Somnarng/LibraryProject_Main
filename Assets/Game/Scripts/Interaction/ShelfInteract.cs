@@ -2,11 +2,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class ShelfInteract : MonoBehaviour, IInteractable
+public class ShelfInteract : MonoBehaviour, IInteractable, IDataPersistence
 {
     [SerializeField] private bool interactable;
     [SerializeField] private string interactText;
-    public int shelfID; //MUST BE UNIQUE between shelves, used to save/load shelf data.
+    [SerializeField] private int shelfID; //MUST BE UNIQUE between shelves, used to save/load shelf data.
+    [SerializeField] private ShelfData shelfData;
 
     //reference relevant managers
     private InventoryManager inventory;
@@ -14,7 +15,6 @@ public class ShelfInteract : MonoBehaviour, IInteractable
 
     //lists for books (and blank spaces when shelf is empty)
     public List<BookScript> shelvedBooks;
-    public List<int> shelvedBookIDs;
     public List<BookScript> blankBooks;
 
     //shelf state management
@@ -34,7 +34,6 @@ public class ShelfInteract : MonoBehaviour, IInteractable
             for (int b = 0; b < blankBooks.Count; b++)
             {
                 shelvedBooks.Add(blankBooks[b]);
-                shelvedBookIDs.Add(blankBooks[b].bookId);
             }
         }
     }
@@ -43,8 +42,7 @@ public class ShelfInteract : MonoBehaviour, IInteractable
     {
         //Debug.Log("enblanken " + which);
 
-        shelvedBooks[which] = blankBooks[which];
-        shelvedBookIDs[which] = blankBooks[which].bookId;
+        this.shelvedBooks[which] = this.blankBooks[which];
 
         //if all spots are clear, shelf is not disorganized (change shelfstate)
         bool allClear = true;
@@ -112,18 +110,46 @@ public class ShelfInteract : MonoBehaviour, IInteractable
         shelfMenu.OpenShelf(this);
     }
 
-
+    public void MoveBook(int which, BookScript selectedBook)
+    {
+        this.shelvedBooks[which] = selectedBook;
+    }
 
     public bool Interactable { get { return interactable; } set { interactable = value; } }
     public string InteractText { get { return interactText; } set { interactText = value; } }
     public Transform objectTransform { get => gameObject.transform; }
 
 
-
-    // Update is called once per frame
-    void Update()
+    public void LoadData(PlayerStats data)
     {
-
+        foreach (var item in data.ShelfData)
+        {
+            if (item.shelfId == shelfID)
+            {
+                shelvedBooks = item.bookIds;
+                shelfState = item.shelfState;
+                bookMovements = item.bookMovements;
+                Debug.Log("ShelfLoaded");
+            }
+        }
     }
 
+
+    public void SaveData(ref PlayerStats data)
+    {
+        foreach (var item in data.ShelfData)
+        {
+            if (item.shelfId == shelfID)
+            {
+                data.ShelfData.Remove(item);
+            }
+        }
+        ShelfData shelfData = new ShelfData
+        {
+            shelfId = shelfID,
+            bookIds = shelvedBooks,
+            shelfState = shelfState
+        };
+        data.ShelfData.Add(shelfData);
+    }
 }

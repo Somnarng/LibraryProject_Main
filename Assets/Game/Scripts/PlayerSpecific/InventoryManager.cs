@@ -54,20 +54,6 @@ public class InventoryManager : MonoBehaviour, IDataPersistence
 
     public void LoadData(PlayerStats data) //called on scene changes or if a generic "load" function is called on the data persitence script
     {
-        foreach (KeyValuePair<int, ShelfInteract> iSI in data.ShelfData) //searches through the dictionary list for every shelfdata saved, compares to current shelfdata on inventory manager.
-        {
-            if(shelves == null) { return; }
-            for (int i = 0; i < shelves.Count; i++)
-            {
-                if (iSI.Value.shelfID.Equals(shelves[i].shelfID))
-                {
-                    shelves[i].shelvedBookIDs = iSI.Value.shelvedBookIDs;
-                    shelves[i].shelfState = iSI.Value.shelfState;
-                    shelves[i].bookMovements = iSI.Value.bookMovements;
-                }
-            }
-        }
-
         if (debugInventory) { return; }
         UnsortedBooks = data.UnsortedBooks;
         BooksInInventory = data.BooksInInventory;
@@ -75,16 +61,6 @@ public class InventoryManager : MonoBehaviour, IDataPersistence
 
     public void SaveData(ref PlayerStats data) //called before scenes deload to keep data between scene movement, also called when the day is progressed through sleeping
     {
-        foreach (ShelfInteract SI in shelves) //for every shelf in the shelves list, remove any existing data from the dictionary and re-add the updated data.
-        {
-            if (data.ShelfData.ContainsKey(SI.shelfID))
-            {
-                data.ShelfData.Remove(SI.shelfID);
-            }
-
-            data.ShelfData.Add(SI.shelfID, SI);
-        }
-
         if (debugInventory) { return; }
         data.UnsortedBooks = UnsortedBooks;
         data.BooksInInventory = BooksInInventory;
