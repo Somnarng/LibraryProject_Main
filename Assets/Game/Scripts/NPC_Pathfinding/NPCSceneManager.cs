@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -17,16 +16,7 @@ public class NPCSceneManager : Singleton<NPCSceneManager>, IDataPersistence
     void Start()
     {
         Time = TimeManager.Instance;
-        DGame = new DefaultGame();
-    }
-
-    private void OnEnable()
-    {
-        SceneManager.sceneLoaded += LevelLoaded;
-    }
-    private void OnDisable()
-    {
-        SceneManager.sceneLoaded -= LevelLoaded;
+        DGame = new DefaultGame(Game);
     }
 
     private void Update()
@@ -36,7 +26,10 @@ public class NPCSceneManager : Singleton<NPCSceneManager>, IDataPersistence
 
     public void LoadData(PlayerStats data)
     {
-        Game = data;
+        Game.NPCs = data.NPCs;
+        Game.Scenes = data.Scenes;
+        Game.GlobalFlags = data.GlobalFlags;
+        Game.Scene = data.Scene;
         //Set all scheduled task items for those currently moving to their place
         foreach (var npc in Game.NPCs)
         {
@@ -57,9 +50,10 @@ public class NPCSceneManager : Singleton<NPCSceneManager>, IDataPersistence
         }
 
         Game.Scene = Game.Scenes.Where(s => s.Name == SceneManager.GetActiveScene().buildIndex.ToString()).FirstOrDefault();
+        DataLoaded();
     }
 
-    void LevelLoaded(Scene arg0, LoadSceneMode arg1)
+    void DataLoaded()
     {
         NPC_Manager[] allNPCs = UnityEngine.Object.FindObjectsOfType<NPC_Manager>(true);
         foreach (var c in allNPCs)
@@ -80,6 +74,7 @@ public class NPCSceneManager : Singleton<NPCSceneManager>, IDataPersistence
         foreach (var npc in Game.NPCs.Where(n => n.Scene == Game.Scene.Name))
         {
             npc.CreateInScene();
+            Debug.Log(npc.Name+ "Instantiated");
         }
     }
 
@@ -94,7 +89,10 @@ public class NPCSceneManager : Singleton<NPCSceneManager>, IDataPersistence
 
     public void SaveData(ref PlayerStats data)
     {
-
+        data.NPCs = Game.NPCs;
+        data.Scenes = Game.Scenes;
+        data.GlobalFlags = Game.GlobalFlags;
+        data.Scene = Game.Scene;
     }
 
     void CheckAllAbsentSchedules(bool forceAll = false)

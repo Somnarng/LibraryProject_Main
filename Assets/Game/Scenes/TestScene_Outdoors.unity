@@ -197,7 +197,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4703451067142162, guid: b6993e89d9af3f64182a41c77cf345c2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 11.629341
+      value: 0.31569672
       objectReference: {fileID: 0}
     - target: {fileID: 4703451067142162, guid: b6993e89d9af3f64182a41c77cf345c2, type: 3}
       propertyPath: m_LocalPosition.y
@@ -5741,6 +5741,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UnsortedBooks: []
   BooksInInventory: []
+  debugInventory: 0
   money: 0
   shelves: []
 --- !u!1001 &1086485620
@@ -33550,7 +33551,7 @@ Transform:
   m_GameObject: {fileID: 1914545927}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 10.22, y: 5.36, z: 0}
+  m_LocalPosition: {x: 11, y: 6.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

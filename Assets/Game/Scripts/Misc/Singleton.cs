@@ -76,4 +76,3 @@ public abstract class Singleton : MonoBehaviour
     }
     #endregion
 }
-//Free candy!

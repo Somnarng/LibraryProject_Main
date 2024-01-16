@@ -675,7 +675,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4703451067142162, guid: b6993e89d9af3f64182a41c77cf345c2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 8.508041
+      value: 14.474545
       objectReference: {fileID: 0}
     - target: {fileID: 4703451067142162, guid: b6993e89d9af3f64182a41c77cf345c2, type: 3}
       propertyPath: m_LocalPosition.y
@@ -18226,6 +18226,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 4351360176308681351}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2123389188 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8880731416953697250, guid: b83e87e27c06465409437a86da0934fb,
+    type: 3}
+  m_PrefabInstance: {fileID: 4351360176308681351}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0514923403e9914a8af28838e64a4f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2127228105
 GameObject:
   m_ObjectHideFlags: 0
@@ -18484,6 +18496,41 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3364512157978935840, guid: b83e87e27c06465409437a86da0934fb,
+        type: 3}
+      propertyPath: unityEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3364512157978935840, guid: b83e87e27c06465409437a86da0934fb,
+        type: 3}
+      propertyPath: unityEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3364512157978935840, guid: b83e87e27c06465409437a86da0934fb,
+        type: 3}
+      propertyPath: unityEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2123389188}
+    - target: {fileID: 3364512157978935840, guid: b83e87e27c06465409437a86da0934fb,
+        type: 3}
+      propertyPath: unityEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3364512157978935840, guid: b83e87e27c06465409437a86da0934fb,
+        type: 3}
+      propertyPath: unityEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GoToNextLevel
+      objectReference: {fileID: 0}
+    - target: {fileID: 3364512157978935840, guid: b83e87e27c06465409437a86da0934fb,
+        type: 3}
+      propertyPath: unityEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: MoreMountains.TopDownEngine.GoToLevelEntryPoint, MoreMountains.TopDownEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 3364512157978935840, guid: b83e87e27c06465409437a86da0934fb,
+        type: 3}
+      propertyPath: unityEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 5344314114674196282, guid: b83e87e27c06465409437a86da0934fb,
         type: 3}
       propertyPath: m_Name
@@ -18493,6 +18540,21 @@ PrefabInstance:
         type: 3}
       propertyPath: UseEntryPoints
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8880731416953697250, guid: b83e87e27c06465409437a86da0934fb,
+        type: 3}
+      propertyPath: PointOfEntryIndex
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8880731416953697250, guid: b83e87e27c06465409437a86da0934fb,
+        type: 3}
+      propertyPath: RequiresPlayerType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8880731416953697250, guid: b83e87e27c06465409437a86da0934fb,
+        type: 3}
+      propertyPath: RequiresButtonActivationAbility
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

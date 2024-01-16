@@ -38,4 +38,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Game/Scenes/TestScene_Outdoors.unity
     guid: 5773e4ef0fe8ac143946b84bbb10b1fc
+  - enabled: 1
+    path: Assets/Game/Scenes/TestScene_AI.unity
+    guid: e433a77f25aa3144a8974cdb6885f1eb
+  - enabled: 1
+    path: Assets/Game/Scenes/TestScene_AI2.unity
+    guid: 4d6c5038794294b42b92cb5642ac2191
   m_configObjects: {}

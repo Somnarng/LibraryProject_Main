@@ -9,24 +9,22 @@ public class DefaultGame  {
 	// Use this for initialization
 	public PlayerStats Game;
 
-	public DefaultGame(){ //used for debugging
-
+	public DefaultGame(PlayerStats game){ //used for debugging
+		Game = game;
         // ----  Scenes
         SceneModel TestScene = new SceneModel();
 		TestScene.Name = "TestScene_AI";
-
 		TestScene.Exits = new List<SceneExitModel>();
 		TestScene.Exits.Add (new SceneExitModel{
-			Position = new Vector3(14,3,-13),
+			Position = new Vector3(11, 6.36000013f, 0),
 			To = "TestScene_AI2"
         });
         SceneModel TestScene2 = new SceneModel();
         TestScene2.Name = "TestScene_AI2";
-
         TestScene2.Exits = new List<SceneExitModel>();
         TestScene2.Exits.Add(new SceneExitModel
         {
-            Position = new Vector3(14, 3, -13),
+            Position = new Vector3(11, 6.36000013f, 0),
             To = "TestScene_AI"
         });
 
@@ -68,9 +66,8 @@ public class DefaultGame  {
 
 		// ----// ---- NPC Guy
 		Game.NPCs.Add (new NPCStateModel{
-			Name = "FirstNPC",
+			Name = "Guy",
 			Position = new Vector3(3,3,3),
-			InitialDialogOptionId = 0,
 			WeeklySchedule = sch,
 			LifetimeSchedule = new List<ScheduleItem>(),
 			Scene = "TestScene_AI"
@@ -79,7 +76,6 @@ public class DefaultGame  {
 		// ---- Game State Intialization
 		Game.Scenes.Add(TestScene);
 		Game.Scenes.Add(TestScene2);
-
 		Game.Scene = TestScene;
 
 	}
