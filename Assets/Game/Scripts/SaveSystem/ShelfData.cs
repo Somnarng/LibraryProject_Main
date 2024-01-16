@@ -15,5 +15,4 @@ public class ShelfData
         this.bookMovements = 0;
         this.bookIds = new List<BookScript>();
     }
-
 }

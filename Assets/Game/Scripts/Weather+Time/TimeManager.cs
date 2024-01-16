@@ -34,6 +34,7 @@ public class TimeManager : Singleton<TimeManager>, IDataPersistence
     private int m_CurrentDayOfMonth = 1;
     private int m_CurrentMonthOfYear = 1;
     private int m_CurrentYear = 1;
+    public int hourOfDay;
 
     private int ratioMultiplier = 1;
 
@@ -63,7 +64,6 @@ public class TimeManager : Singleton<TimeManager>, IDataPersistence
         {
             float previousRatio = CurrentDayRatio;
             m_CurrentTimeOfTheDay += Time.deltaTime;
-
             while (m_CurrentTimeOfTheDay > DayDurationInSeconds)
                 m_CurrentTimeOfTheDay -= DayDurationInSeconds;
 
@@ -86,9 +86,10 @@ public class TimeManager : Singleton<TimeManager>, IDataPersistence
             }
 
             if (DayCycleHandler != null)
-                DayCycleHandler.Tick(CurrentDayRatio);
+                DayCycleHandler.Tick(CurrentDayRatio); hourOfDay = GetHourFromRatio(CurrentDayRatio);
             if (TimerText != null)
                 TimerText.UpdateText(CurrentTimeAsString());
+
         }
     }
 
