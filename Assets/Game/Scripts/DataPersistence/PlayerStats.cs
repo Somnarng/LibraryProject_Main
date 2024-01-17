@@ -21,7 +21,7 @@ public class PlayerStats
 
     public List<GameFlag> GlobalFlags;
     public List<SceneModel> Scenes;
-    public List<NPCStateModel> NPCs;
+    public List<NPCStateModel> NPCS;
     public SceneModel Scene;
 
     public PlayerStats()
@@ -39,7 +39,7 @@ public class PlayerStats
 
         this.GlobalFlags = new List<GameFlag>();
         this.Scenes = new List<SceneModel>();
-        this.NPCs = new List<NPCStateModel>();
+        this.NPCS = new List<NPCStateModel>();
         this.Scene = new SceneModel();
     }
 }

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
+[System.Serializable]
 public class NPCStateModel
 {
     public string Name { get; set; }
@@ -17,7 +18,7 @@ public class NPCStateModel
     // animator
     public void CreateInScene(Vector3 instantiatePos)
     {
-        GameObject prefab = (GameObject)Resources.Load("Game/Prefabs/NPC");
+        GameObject prefab = (GameObject)Resources.Load("Prefabs/NPC/Guy");
         var instance = (GameObject)UnityEngine.Object.Instantiate(prefab, instantiatePos, Quaternion.identity);
         var npcInstanceState = instance.GetComponent<NPC_Manager>();
         npcInstanceState.State = this;
@@ -26,7 +27,7 @@ public class NPCStateModel
     }
     public void CreateInScene()
     {
-        GameObject prefab = (GameObject)Resources.Load("Game/Prefabs/NPC");
+        GameObject prefab = (GameObject)Resources.Load("Prefabs/NPC/Guy");
         var instance = (GameObject)UnityEngine.Object.Instantiate(prefab, this.Position, Quaternion.identity);
         var npcInstanceState = instance.GetComponent<NPC_Manager>();
         npcInstanceState.State = this;

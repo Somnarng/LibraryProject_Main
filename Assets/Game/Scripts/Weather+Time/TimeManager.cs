@@ -38,7 +38,7 @@ public class TimeManager : Singleton<TimeManager>, IDataPersistence
 
     private int ratioMultiplier = 1;
 
-    protected override void OnAwake()
+    protected override void OnEnableCallback()
     {
         m_IsTicking = true;
 
@@ -252,4 +252,5 @@ public class TimeManager : Singleton<TimeManager>, IDataPersistence
     {
         Instance?.m_EventHandlers.Remove(handler);
     }
+
 }

@@ -27,7 +27,6 @@ public class DefaultGame  {
             Position = new Vector3(11, 6.36000013f, 0),
             To = "TestScene_AI"
         });
-
         // ---- NPCs
         List<ScheduleItem> sch = new List<ScheduleItem>();
 		sch.Add(new ScheduleItem{
@@ -65,7 +64,7 @@ public class DefaultGame  {
         });
 
 		// ----// ---- NPC Guy
-		Game.NPCs.Add (new NPCStateModel{
+		Game.NPCS.Add (new NPCStateModel{
 			Name = "Guy",
 			Position = new Vector3(3,3,3),
 			WeeklySchedule = sch,
@@ -80,6 +79,3 @@ public class DefaultGame  {
 
 	}
 }
-
-
-

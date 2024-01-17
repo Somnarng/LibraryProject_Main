@@ -22,9 +22,9 @@ public class NPC_Manager : MonoBehaviour
     void Start()
     {
 
-        State = GameManager.Game.NPCs.FirstOrDefault(n => n.Name == Name);
+        State = GameManager.Game.NPCS.FirstOrDefault(n => n.Name == Name);
         seeker = GetComponent<Seeker>();
-        var npc = GameManager.Game.NPCs.FirstOrDefault(n => n.Name == Name);
+        var npc = GameManager.Game.NPCS.FirstOrDefault(n => n.Name == Name);
         State.LifetimeSchedule = npc.LifetimeSchedule;
         State.WeeklySchedule = npc.WeeklySchedule;
 
@@ -140,7 +140,7 @@ public class NPC_Manager : MonoBehaviour
 
     void SaveStateToGameManager()
     {
-        var me = GameManager.Game.NPCs.FirstOrDefault(npc => npc.Name == this.Name);
+        var me = GameManager.Game.NPCS.FirstOrDefault(npc => npc.Name == this.Name);
         me = State;
     }
 }

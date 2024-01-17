@@ -13,6 +13,7 @@ public class NPCSceneManager : Singleton<NPCSceneManager>, IDataPersistence
     int currentHour = -1;
 
     // Use this for initialization
+
     void Start()
     {
         Time = TimeManager.Instance;
@@ -26,12 +27,12 @@ public class NPCSceneManager : Singleton<NPCSceneManager>, IDataPersistence
 
     public void LoadData(PlayerStats data)
     {
-        Game.NPCs = data.NPCs;
+        Game.NPCS = data.NPCS;
         Game.Scenes = data.Scenes;
         Game.GlobalFlags = data.GlobalFlags;
         Game.Scene = data.Scene;
         //Set all scheduled task items for those currently moving to their place
-        foreach (var npc in Game.NPCs)
+        foreach (var npc in Game.NPCS)
         {
             if (npc.Scene == Game.Scene.Name)
             {
@@ -71,7 +72,7 @@ public class NPCSceneManager : Singleton<NPCSceneManager>, IDataPersistence
 
 
         // Instantiate NPCS
-        foreach (var npc in Game.NPCs.Where(n => n.Scene == Game.Scene.Name))
+        foreach (var npc in Game.NPCS.Where(n => n.Scene == Game.Scene.Name))
         {
             npc.CreateInScene();
             Debug.Log(npc.Name+ "Instantiated");
@@ -89,7 +90,10 @@ public class NPCSceneManager : Singleton<NPCSceneManager>, IDataPersistence
 
     public void SaveData(ref PlayerStats data)
     {
-        data.NPCs = Game.NPCs;
+        data.NPCS.Clear();
+        data.Scenes.Clear();
+        data.GlobalFlags.Clear();
+        data.NPCS = Game.NPCS;
         data.Scenes = Game.Scenes;
         data.GlobalFlags = Game.GlobalFlags;
         data.Scene = Game.Scene;
@@ -100,11 +104,11 @@ public class NPCSceneManager : Singleton<NPCSceneManager>, IDataPersistence
         List<NPCStateModel> absentNpcs = new List<NPCStateModel>();
         if (forceAll)
         {
-            absentNpcs = Game.NPCs;
+            absentNpcs = Game.NPCS;
         }
         else
         {
-            absentNpcs = Game.NPCs.Where(npc => npc.Scene != Game.Scene.Name).ToList();
+            absentNpcs = Game.NPCS.Where(npc => npc.Scene != Game.Scene.Name).ToList();
         }
 
         foreach (var npc in absentNpcs)
@@ -139,4 +143,5 @@ public class NPCSceneManager : Singleton<NPCSceneManager>, IDataPersistence
             }
         }
     }
+
 }
