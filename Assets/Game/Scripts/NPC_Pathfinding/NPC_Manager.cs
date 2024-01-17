@@ -6,7 +6,6 @@ using System.Linq;
 using UnityEngine.SceneManagement;
 public class NPC_Manager : MonoBehaviour
 {
-
     public string Name;
     public NPCStateModel State { get; set; }
     public NPCSceneManager GameManager { get; set; }
@@ -21,7 +20,6 @@ public class NPC_Manager : MonoBehaviour
 
     void Start()
     {
-
         State = GameManager.Game.NPCS.FirstOrDefault(n => n.Name == Name);
         seeker = GetComponent<Seeker>();
         var npc = GameManager.Game.NPCS.FirstOrDefault(n => n.Name == Name);
@@ -34,7 +32,6 @@ public class NPC_Manager : MonoBehaviour
 
     void Update()
     {
-
         // Dummy start path toward player
         if (Input.GetKeyDown("p"))
         {

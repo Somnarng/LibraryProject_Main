@@ -1,3 +1,4 @@
+using MoreMountains.TopDownEngine;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -9,6 +10,7 @@ public class NPCSceneManager : Singleton<NPCSceneManager>, IDataPersistence
     public PlayerStats Game;
     public TimeManager Time;
     public DefaultGame DGame;
+    public NPCList NPCList;
 
     int currentHour = -1;
 
@@ -17,7 +19,45 @@ public class NPCSceneManager : Singleton<NPCSceneManager>, IDataPersistence
     void Start()
     {
         Time = TimeManager.Instance;
-        DGame = new DefaultGame(Game);
+
+        NPCList = GetComponent<NPCList>();
+
+        foreach (NPC npc in NPCList.npcs) {
+            Game.NPCS.Add(new NPCStateModel
+            {
+                Name = npc.name,
+                Prefab = npc.prefab,
+                Position = new Vector3(3, 3, 3),
+                WeeklySchedule = npc.schedule.ToList<ScheduleItem>(),
+                LifetimeSchedule = new List<ScheduleItem>(),
+                Scene = "TestScene_AI"
+            });
+        }
+
+        SceneModel TestScene = new SceneModel();
+        TestScene.Name = "TestScene_AI";
+        TestScene.Exits = new List<SceneExitModel>
+        {
+            new SceneExitModel
+            {
+                Position = new Vector3(11, 6.36000013f, 0),
+                To = "TestScene_AI2"
+            }
+        };
+        SceneModel TestScene2 = new SceneModel();
+        TestScene2.Name = "TestScene_AI2";
+        TestScene2.Exits = new List<SceneExitModel>
+        {
+            new SceneExitModel
+            {
+                Position = new Vector3(11, 6.36000013f, 0),
+                To = "TestScene_AI"
+            }
+        };
+
+        Game.Scenes.Add(TestScene);
+        Game.Scenes.Add(TestScene2);
+        Game.Scene = TestScene;
     }
 
     private void Update()
@@ -27,10 +67,7 @@ public class NPCSceneManager : Singleton<NPCSceneManager>, IDataPersistence
 
     public void LoadData(PlayerStats data)
     {
-        Game.NPCS = data.NPCS;
-        Game.Scenes = data.Scenes;
-        Game.GlobalFlags = data.GlobalFlags;
-        Game.Scene = data.Scene;
+        Game = data;
         //Set all scheduled task items for those currently moving to their place
         foreach (var npc in Game.NPCS)
         {
@@ -90,11 +127,7 @@ public class NPCSceneManager : Singleton<NPCSceneManager>, IDataPersistence
 
     public void SaveData(ref PlayerStats data)
     {
-        data.NPCS.Clear();
-        data.Scenes.Clear();
-        data.GlobalFlags.Clear();
         data.NPCS = Game.NPCS;
-        data.Scenes = Game.Scenes;
         data.GlobalFlags = Game.GlobalFlags;
         data.Scene = Game.Scene;
     }

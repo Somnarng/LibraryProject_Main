@@ -4480,6 +4480,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1321242796}
+    - targetCorrespondingSourceObject: {fileID: 4686499554708113646, guid: ad982277c3c11a04ea18d59eaa1223a5,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1321242798}
   m_SourcePrefab: {fileID: 100100000, guid: ad982277c3c11a04ea18d59eaa1223a5, type: 3}
 --- !u!1 &1029859687
 GameObject:
@@ -5590,7 +5594,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6824f85f76e4f8749b44799108139247, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _persistent: 1
   Game:
     playerName: Default
     timeOfTheDay: 45
@@ -5619,9 +5622,60 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44987bbc2757b3e489857d51eda52cd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _persistent: 1
   fileName: data.sav
   useEncryption: 0
+--- !u!114 &1321242798
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1321242793}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cace9d6361e7b424bba7db0e7620f6d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  npcs:
+  - name: Guy
+    prefab: {fileID: 634833519685632400, guid: 3fd0698d88e40784fbd9cf0085d7f89d, type: 3}
+    schedule:
+    - Year: 0
+      Month: 0
+      Day: 0
+      Weekday: 0
+      Hour: 0
+      Scene: TestScene_AI
+      Position: {x: 7, y: 2, z: -12}
+      Activity: Stand
+      FromExit: 
+    - Year: 0
+      Month: 0
+      Day: 0
+      Weekday: 0
+      Hour: 1
+      Scene: TestScene_AI
+      Position: {x: -3, y: 7, z: 0}
+      Activity: Stand
+      FromExit: 
+    - Year: 0
+      Month: 0
+      Day: 0
+      Weekday: 0
+      Hour: 2
+      Scene: TestScene_AI2
+      Position: {x: 1, y: 1.6, z: 1}
+      Activity: Stand
+      FromExit: TestScene_AI
+    - Year: 0
+      Month: 0
+      Day: 0
+      Weekday: 0
+      Hour: 3
+      Scene: TestScene_AI
+      Position: {x: 1, y: 1.6, z: 1}
+      Activity: Stand
+      FromExit: TestScene_AI2
 --- !u!1 &1322496340
 GameObject:
   m_ObjectHideFlags: 0
