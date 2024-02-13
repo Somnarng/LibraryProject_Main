@@ -1,7 +1,9 @@
 using EPOOutline;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerInteraction : MonoBehaviour
 {
@@ -13,16 +15,11 @@ public class PlayerInteraction : MonoBehaviour
     private bool canInteract = true;
     private bool inInteractRange = false;
     private int count = 0;
-    public IInteractable object1;
+    private IInteractable object1;
 
-    private void OnEnable()
+    private void Start()
     {
-
-    }
-
-    private void OnDisable()
-    {
-
+        interactableObject = FindObjectsOfType<MonoBehaviour>(true).OfType<IInteractable>().ToList();
     }
 
     private void Update()
@@ -61,8 +58,14 @@ public class PlayerInteraction : MonoBehaviour
         if (collision.GetComponent<IInteractable>() != null)
         {
             count++;
-            interactableObject.Add(collision.GetComponent<IInteractable>());
             inInteractRange = true;
+            FindTarget();
+        }
+    }
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.GetComponent<IInteractable>() != null) //updates current interactable with shortest distance
+        {
             FindTarget();
         }
     }
@@ -71,15 +74,11 @@ public class PlayerInteraction : MonoBehaviour
         if (collision.GetComponent<IInteractable>() != null)
         {
             count--;
-            if (interactableObject.Contains(collision.GetComponent<IInteractable>()))
-            {
-                interactableObject.Remove(collision.GetComponent<IInteractable>());
-                FindTarget();
-            }
+            FindTarget();
             if (count == 0)
             {
+                if (object1 != null && object1.objectTransform.GetComponentInParent<Outlinable>() != null) { object1.objectTransform.GetComponentInParent<Outlinable>().enabled = false; }
                 inInteractRange = false;
-                if (collision.transform.GetComponentInParent<Outlinable>() != null) { collision.transform.GetComponentInParent<Outlinable>().enabled = false; }
                 object1 = null;
             }
         }
@@ -106,6 +105,7 @@ public class PlayerInteraction : MonoBehaviour
 
         for (int i = 0; i < interactableObject.Count; i++)
         {
+            if (interactableObject[i] == null || interactableObject[i].objectTransform == null) { return; }
             float dist = Vector3.Distance(interactableObject[i].objectTransform.position, transform.position);
 
             if (dist < lowestDist && interactableObject[i].Interactable)

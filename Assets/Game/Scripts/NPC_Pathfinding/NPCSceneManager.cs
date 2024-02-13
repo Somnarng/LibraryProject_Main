@@ -18,12 +18,12 @@ public class NPCSceneManager : Singleton<NPCSceneManager>, IDataPersistence
 
     void Start()
     {
-        Time = TimeManager.Instance;
+        Time = TimeManager.Instance; //sets timemanager to active time manager
 
-        NPCList = GetComponent<NPCList>();
+        NPCList = GetComponent<NPCList>(); //gets npc list from gameobject
 
         foreach (NPC npc in NPCList.npcs) {
-            Game.NPCS.Add(new NPCStateModel
+            Game.NPCS.Add(new NPCStateModel //adds npc info to Game.NPCS
             {
                 Name = npc.name,
                 Prefab = npc.prefab,
@@ -35,7 +35,7 @@ public class NPCSceneManager : Singleton<NPCSceneManager>, IDataPersistence
         }
 
         SceneModel TestScene = new SceneModel();
-        TestScene.Name = "TestScene_AI";
+        TestScene.Name = "TestScene_AI"; //setup scene models for checking npc state
         TestScene.Exits = new List<SceneExitModel>
         {
             new SceneExitModel
@@ -69,12 +69,13 @@ public class NPCSceneManager : Singleton<NPCSceneManager>, IDataPersistence
     {
         Game = data;
         //Set all scheduled task items for those currently moving to their place
-        foreach (var npc in Game.NPCS)
+        if (Game.NPCS == null) { Debug.Log("NO NPCS!"); return; }
+        foreach (var npc in Game.NPCS) //loads npcs if their scene is equal to the current scene name
         {
             if (npc.Scene == Game.Scene.Name)
             {
                 var item = npc.LifetimeSchedule.FirstOrDefault(s => s.Day == Game.dayOfMonth && s.Hour == Time.hourOfDay && s.Month == Game.monthOfYear);
-                if (item == null)
+                if (item == null) 
                 {
                     item = npc.WeeklySchedule.FirstOrDefault(s => s.Weekday == Game.WeekDay && s.Hour == Time.hourOfDay);
                 }

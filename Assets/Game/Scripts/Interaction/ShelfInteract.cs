@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [System.Serializable]
@@ -137,7 +138,7 @@ public class ShelfInteract : MonoBehaviour, IInteractable, IDataPersistence
 
     public void SaveData(ref PlayerStats data)
     {
-        foreach (var item in data.ShelfData)
+        foreach (var item in data.ShelfData.ToList())
         {
             if (item.shelfId == shelfID)
             {

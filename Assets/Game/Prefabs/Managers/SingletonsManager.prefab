@@ -10,8 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 6997538820926753048}
   - component: {fileID: 2633149078629699429}
+  - component: {fileID: 260885542274153047}
+  - component: {fileID: 3136141523751525429}
+  - component: {fileID: 7292588775863775145}
   m_Layer: 0
-  m_Name: TimeManager
+  m_Name: SingletonsManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -25,13 +28,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4686499554708113646}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 3.1966372, y: 0.08567023, z: -0.64527255}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 3408728107435882699}
-  - {fileID: 4183168026787054523}
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2633149078629699429
@@ -46,105 +47,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7aaabf1ce21bf941ac2b6e07aeeaa6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _persistent: 1
   DayDurationInSeconds: 120
   StartingTime: 1
   MilitaryTime: 0
   DaysInMonth: 30
   MonthsInYear: 4
   hourOfDay: 0
---- !u!1 &5213504613832576347
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 3408728107435882699}
-  - component: {fileID: 6011913992438396879}
-  m_Layer: 0
-  m_Name: SaveManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &3408728107435882699
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5213504613832576347}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 6.017003, y: 11.798032, z: 0.56239754}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 6997538820926753048}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6011913992438396879
+--- !u!114 &260885542274153047
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5213504613832576347}
+  m_GameObject: {fileID: 4686499554708113646}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 44987bbc2757b3e489857d51eda52cd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _persistent: 1
   fileName: data.sav
   useEncryption: 0
---- !u!1 &7155031571859258313
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4183168026787054523}
-  - component: {fileID: 983688315668799297}
-  m_Layer: 0
-  m_Name: NPCSceneManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &4183168026787054523
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7155031571859258313}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 15.197061, y: -3.377226, z: 0.06119305}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 6997538820926753048}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &983688315668799297
+--- !u!114 &3136141523751525429
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7155031571859258313}
+  m_GameObject: {fileID: 4686499554708113646}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6824f85f76e4f8749b44799108139247, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _persistent: 1
   Game:
     playerName: Default
     timeOfTheDay: 45
@@ -161,3 +95,56 @@ MonoBehaviour:
       Name: 
       Flags: []
   Time: {fileID: 0}
+  NPCList: {fileID: 0}
+--- !u!114 &7292588775863775145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4686499554708113646}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cace9d6361e7b424bba7db0e7620f6d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  npcs:
+  - name: Guy
+    prefab: {fileID: 634833519685632400, guid: 3fd0698d88e40784fbd9cf0085d7f89d, type: 3}
+    schedule:
+    - Year: 0
+      Month: 0
+      Day: 0
+      Weekday: 0
+      Hour: 0
+      Scene: TestScene_AI
+      Position: {x: 7, y: 2, z: -12}
+      Activity: Stand
+      FromExit: 
+    - Year: 0
+      Month: 0
+      Day: 0
+      Weekday: 0
+      Hour: 1
+      Scene: TestScene_AI
+      Position: {x: -3, y: 7, z: 0}
+      Activity: Stand
+      FromExit: 
+    - Year: 0
+      Month: 0
+      Day: 0
+      Weekday: 0
+      Hour: 2
+      Scene: TestScene_AI2
+      Position: {x: 1, y: 1.6, z: 1}
+      Activity: Stand
+      FromExit: TestScene_AI
+    - Year: 0
+      Month: 0
+      Day: 0
+      Weekday: 0
+      Hour: 3
+      Scene: TestScene_AI
+      Position: {x: 1, y: 1.6, z: 1}
+      Activity: Stand
+      FromExit: TestScene_AI2
