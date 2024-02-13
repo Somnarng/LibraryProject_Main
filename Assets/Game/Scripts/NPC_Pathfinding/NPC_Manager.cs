@@ -18,8 +18,9 @@ public class NPC_Manager : MonoBehaviour
     int currentWaypoint = 0;
     int currentHour = -1;
 
-    void Start()
+    void OnEnable()
     {
+        GameManager = FindAnyObjectByType<NPCSceneManager>();
         State = GameManager.Game.NPCS.FirstOrDefault(n => n.Name == Name);
         seeker = GetComponent<Seeker>();
         var npc = GameManager.Game.NPCS.FirstOrDefault(n => n.Name == Name);
@@ -35,7 +36,7 @@ public class NPC_Manager : MonoBehaviour
         // Dummy start path toward player
         if (Input.GetKeyDown("p"))
         {
-            var player = GameObject.Find("Player");
+            var player = GameObject.FindGameObjectWithTag("Player");
             currentScheduleItem = new ScheduleItem
             {
                 Activity = "Wait",
@@ -127,7 +128,7 @@ public class NPC_Manager : MonoBehaviour
 
         if (currentScheduleItem.Scene != GameManager.Game.Scene.Name)
         {
-            UnityEngine.Object.Destroy(this.gameObject);
+            Destroy(this.gameObject);
         }
         else
         {

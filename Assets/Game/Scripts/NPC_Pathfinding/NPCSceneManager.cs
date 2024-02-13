@@ -1,5 +1,4 @@
-using MoreMountains.TopDownEngine;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -16,13 +15,14 @@ public class NPCSceneManager : Singleton<NPCSceneManager>, IDataPersistence
 
     // Use this for initialization
 
-    void Start()
+    private void Awake()
     {
         Time = TimeManager.Instance; //sets timemanager to active time manager
 
         NPCList = GetComponent<NPCList>(); //gets npc list from gameobject
 
-        foreach (NPC npc in NPCList.npcs) {
+        foreach (NPC npc in NPCList.npcs)
+        {
             Game.NPCS.Add(new NPCStateModel //adds npc info to Game.NPCS
             {
                 Name = npc.name,
@@ -58,6 +58,17 @@ public class NPCSceneManager : Singleton<NPCSceneManager>, IDataPersistence
         Game.Scenes.Add(TestScene);
         Game.Scenes.Add(TestScene2);
         Game.Scene = TestScene;
+
+    }
+
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     private void Update()
@@ -68,14 +79,14 @@ public class NPCSceneManager : Singleton<NPCSceneManager>, IDataPersistence
     public void LoadData(PlayerStats data)
     {
         Game = data;
-        //Set all scheduled task items for those currently moving to their place
-        if (Game.NPCS == null) { Debug.Log("NO NPCS!"); return; }
-        foreach (var npc in Game.NPCS) //loads npcs if their scene is equal to the current scene name
+        //Set all scheduled task items for NPCS
+        if (Game.NPCS == null || Game.NPCS.Count == 0) { Debug.Log("No NPCS!"); return; }
+        foreach (var npc in Game.NPCS)
         {
             if (npc.Scene == Game.Scene.Name)
             {
                 var item = npc.LifetimeSchedule.FirstOrDefault(s => s.Day == Game.dayOfMonth && s.Hour == Time.hourOfDay && s.Month == Game.monthOfYear);
-                if (item == null) 
+                if (item == null)
                 {
                     item = npc.WeeklySchedule.FirstOrDefault(s => s.Weekday == Game.WeekDay && s.Hour == Time.hourOfDay);
                 }
@@ -88,11 +99,11 @@ public class NPCSceneManager : Singleton<NPCSceneManager>, IDataPersistence
             }
         }
 
-        Game.Scene = Game.Scenes.Where(s => s.Name == SceneManager.GetActiveScene().buildIndex.ToString()).FirstOrDefault();
-        DataLoaded();
+        Game.Scene = Game.Scenes.Where(s => s.Name == SceneManager.GetActiveScene().name).FirstOrDefault();
     }
 
-    void DataLoaded()
+    
+    private void OnSceneLoaded(Scene scene, LoadSceneMode sceneMode)
     {
         NPC_Manager[] allNPCs = UnityEngine.Object.FindObjectsOfType<NPC_Manager>(true);
         foreach (var c in allNPCs)
@@ -113,7 +124,7 @@ public class NPCSceneManager : Singleton<NPCSceneManager>, IDataPersistence
         foreach (var npc in Game.NPCS.Where(n => n.Scene == Game.Scene.Name))
         {
             npc.CreateInScene();
-            Debug.Log(npc.Name+ "Instantiated");
+            Debug.Log(npc.Name + "Instantiated");
         }
     }
 
