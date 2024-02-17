@@ -8,10 +8,9 @@ public class NPCSceneManager : Singleton<NPCSceneManager>, IDataPersistence
 
     public PlayerStats Game;
     public TimeManager Time;
-    public DefaultGame DGame;
     public NPCList NPCList;
 
-    int currentHour = -1;
+    //int currentHour = -1;
 
     // Use this for initialization
 
@@ -21,15 +20,15 @@ public class NPCSceneManager : Singleton<NPCSceneManager>, IDataPersistence
 
         NPCList = GetComponent<NPCList>(); //gets npc list from gameobject
 
-        foreach (NPC npc in NPCList.npcs)
+        foreach (NPCStateModel npc in NPCList.npcs)
         {
             Game.NPCS.Add(new NPCStateModel //adds npc info to Game.NPCS
             {
-                Name = npc.name,
-                Prefab = npc.prefab,
+                Name = npc.Name,
+                Prefab = npc.Prefab,
                 Position = new Vector3(3, 3, 3),
-                WeeklySchedule = npc.schedule.ToList<ScheduleItem>(),
-                LifetimeSchedule = new List<ScheduleItem>(),
+                WeeklySchedule = npc.WeeklySchedule,
+                LifetimeSchedule = npc.LifetimeSchedule,
                 Scene = "TestScene_AI"
             });
         }
@@ -73,27 +72,26 @@ public class NPCSceneManager : Singleton<NPCSceneManager>, IDataPersistence
 
     private void Update()
     {
-        HandleTime();
+        //HandleTime();
     }
 
     public void LoadData(PlayerStats data)
     {
         Game = data;
         //Set all scheduled task items for NPCS
-        if (Game.NPCS == null || Game.NPCS.Count == 0) { Debug.Log("No NPCS!"); return; }
-        foreach (var npc in Game.NPCS)
+        if (Game.NPCS == null || Game.NPCS.Count == 0) { Debug.Log("No NPCS!"); return; } //on game load or scene change, check for NPCS
+        foreach (var npc in Game.NPCS) //for each npc in the npc list, if the scene is the same as the active scene, check their schedule.
         {
             if (npc.Scene == Game.Scene.Name)
             {
-                var item = npc.LifetimeSchedule.FirstOrDefault(s => s.Day == Game.dayOfMonth && s.Hour == Time.hourOfDay && s.Month == Game.monthOfYear);
+                var item = npc.LifetimeSchedule.FirstOrDefault(s => s.Day == Game.dayOfMonth && s.Slot == Time.currentTimeSlot && s.Month == Game.monthOfYear);
                 if (item == null)
                 {
-                    item = npc.WeeklySchedule.FirstOrDefault(s => s.Weekday == Game.WeekDay && s.Hour == Time.hourOfDay);
+                    item = npc.WeeklySchedule.FirstOrDefault(s => s.Weekday == Game.WeekDay && s.Slot == Time.currentTimeSlot);
                 }
-                if (item != null)
+                if (item != null) //if their schedule has an entry that matches the weekday and current time slot, spawn them at the last recorded position on their routine.
                 {
-                    npc.Activity = item.Activity;
-                    npc.Position = item.Position;
+                    npc.Position = item.Routine[npc.routinePosition].Position;
                     npc.Scene = item.Scene;
                 }
             }
@@ -128,14 +126,14 @@ public class NPCSceneManager : Singleton<NPCSceneManager>, IDataPersistence
         }
     }
 
-    void HandleTime()
+   /* void HandleTime()
     {
         if (Time.hourOfDay != currentHour)
         {
             currentHour = Time.hourOfDay;
             CheckAllAbsentSchedules();
         }
-    }
+    }*/
 
     public void SaveData(ref PlayerStats data)
     {
@@ -144,7 +142,7 @@ public class NPCSceneManager : Singleton<NPCSceneManager>, IDataPersistence
         data.Scene = Game.Scene;
     }
 
-    void CheckAllAbsentSchedules(bool forceAll = false)
+   /* void CheckAllAbsentSchedules(bool forceAll = false)
     {
         List<NPCStateModel> absentNpcs = new List<NPCStateModel>();
         if (forceAll)
@@ -187,6 +185,6 @@ public class NPCSceneManager : Singleton<NPCSceneManager>, IDataPersistence
                 }
             }
         }
-    }
+    }*/
 
 }

@@ -136,7 +136,7 @@ using UnityEditor.UIElements;
             SceneView.RepaintAll();
         }
 
-        public override VisualElement CreateInspectorGUI()
+       /* public override VisualElement CreateInspectorGUI()
         {
             var root = new VisualElement();
 
@@ -156,7 +156,7 @@ using UnityEditor.UIElements;
             root.Add(m_PreviewSlider);
             
             return root;
-        }
+        }*/
 
         void CustomUI(VisualElement root)
         {

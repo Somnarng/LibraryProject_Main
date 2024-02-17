@@ -13,9 +13,9 @@ using UnityEditor.UIElements;
 /// </summary>
 [DefaultExecutionOrder(999)]
 public class DayEventHandler : MonoBehaviour
-{
+{ /*
     [System.Serializable]
-    public class DayEvent
+   public class DayEvent
     {
         public float StartTime = 0.0f;
         public float EndTime = 1.0f;
@@ -89,4 +89,6 @@ public class DayEvent : PropertyDrawer
         return container;
     }
 }
-#endif
+#endif 
+  */
+}

@@ -14,12 +14,13 @@ public class TimeManager : Singleton<TimeManager>, IDataPersistence
     public TimerUpdater TimerText { get; set; }
 
     // Will return the ratio of time for the current day between 0 (00:00) and 1 (23:59).
-    public float CurrentDayRatio => m_CurrentTimeOfTheDay / DayDurationInSeconds;
+    //public float CurrentDayRatio => m_CurrentTimeOfTheDay / DayDurationInSeconds;
 
     [Header("Time settings")]
     [Min(1.0f)]
     public float DayDurationInSeconds;
     public float StartingTime = 0.0f;
+    public TimeSlot StartingTimeSlot;
     public bool MilitaryTime = true;
 
     [Header("Day settings")]
@@ -30,19 +31,22 @@ public class TimeManager : Singleton<TimeManager>, IDataPersistence
 
     private List<DayEventHandler> m_EventHandlers = new();
 
-    private float m_CurrentTimeOfTheDay;
+    //private float m_CurrentTimeOfTheDay;
     private int m_CurrentDayOfMonth = 1;
     private int m_CurrentMonthOfYear = 1;
     private int m_CurrentYear = 1;
-    public int hourOfDay;
+    //public int hourOfDay;
+    public TimeSlot currentTimeSlot;
 
-    private int ratioMultiplier = 1;
+    //private int ratioMultiplier = 1;
 
     protected override void OnEnableCallback()
     {
         m_IsTicking = true;
 
-        m_CurrentTimeOfTheDay = StartingTime;
+        //m_CurrentTimeOfTheDay = StartingTime;
+
+        currentTimeSlot = StartingTimeSlot;
 
         //we need to ensure that we don't have a day length at 0, otherwise we will get stuck into infinite loop in update
         //(and a day with 0 length makes no sense)
@@ -55,14 +59,15 @@ public class TimeManager : Singleton<TimeManager>, IDataPersistence
 
     private void Start()
     {
-        m_CurrentTimeOfTheDay = StartingTime;
+        //m_CurrentTimeOfTheDay = StartingTime;
+        currentTimeSlot = StartingTimeSlot;
     }
 
     private void Update()
     {
         if (m_IsTicking)
         {
-            float previousRatio = CurrentDayRatio;
+            /*float previousRatio = CurrentDayRatio;
             m_CurrentTimeOfTheDay += Time.deltaTime;
             while (m_CurrentTimeOfTheDay > DayDurationInSeconds)
                 m_CurrentTimeOfTheDay -= DayDurationInSeconds;
@@ -89,7 +94,7 @@ public class TimeManager : Singleton<TimeManager>, IDataPersistence
                 DayCycleHandler.Tick(CurrentDayRatio); hourOfDay = GetHourFromRatio(CurrentDayRatio);
             if (TimerText != null)
                 TimerText.UpdateText(CurrentTimeAsString());
-
+            */
         }
     }
 
@@ -105,7 +110,7 @@ public class TimeManager : Singleton<TimeManager>, IDataPersistence
 
     public void SaveData(ref PlayerStats data)
     {
-        data.timeOfTheDay = m_CurrentTimeOfTheDay;
+        //data.timeOfTheDay = m_CurrentTimeOfTheDay;
         data.dayOfMonth = m_CurrentDayOfMonth;
         data.monthOfYear = m_CurrentMonthOfYear;
         data.year = m_CurrentYear;
@@ -113,8 +118,8 @@ public class TimeManager : Singleton<TimeManager>, IDataPersistence
 
     public void LoadData(PlayerStats data)
     {
-        m_CurrentTimeOfTheDay = data.timeOfTheDay;
-        StartingTime = m_CurrentTimeOfTheDay;
+        //m_CurrentTimeOfTheDay = data.timeOfTheDay;
+        //StartingTime = m_CurrentTimeOfTheDay;
         m_CurrentDayOfMonth = data.dayOfMonth;
         m_CurrentMonthOfYear = data.monthOfYear;
         m_CurrentYear = data.year;
@@ -163,9 +168,10 @@ public class TimeManager : Singleton<TimeManager>, IDataPersistence
         }
     }
 
-    public void SetTime(float time)
+    public void SetTime(TimeSlot time)
     {
-        m_CurrentTimeOfTheDay = time;
+        //m_CurrentTimeOfTheDay = time;
+        currentTimeSlot = time;
     }
 
     /// <summary>
@@ -174,11 +180,12 @@ public class TimeManager : Singleton<TimeManager>, IDataPersistence
     /// <returns></returns>
     public string CurrentTimeAsString()
     {
-        if (!MilitaryTime) { return GetTimeAsString(CurrentDayRatio); }
+        /*if (!MilitaryTime) { return GetTimeAsString(CurrentDayRatio); }
         else
         {
             return GetMilitaryTimeAsString(CurrentDayRatio);
-        }
+        }*/
+        return(currentTimeSlot.ToString());
     }
 
     /// <summary>
@@ -186,13 +193,13 @@ public class TimeManager : Singleton<TimeManager>, IDataPersistence
     /// </summary>
     /// <param name="ratio"></param>
     /// <returns></returns>
-    public static string GetMilitaryTimeAsString(float ratio)
+    /*public static string GetMilitaryTimeAsString(float ratio)
     {
         var hour = GetHourFromRatio(ratio);
         var minute = GetMinuteFromRatio(ratio);
         return $"{hour}:{minute:00}";
     }
-
+    
     public static string GetTimeAsString(float ratio)
     {
         var hour = GetHourFromRatio(ratio);
@@ -252,5 +259,12 @@ public class TimeManager : Singleton<TimeManager>, IDataPersistence
     {
         Instance?.m_EventHandlers.Remove(handler);
     }
-
+    */
+    public enum TimeSlot
+    {
+        Morning,
+        Noon,
+        Afternoon,
+        Evening
+    }
 }

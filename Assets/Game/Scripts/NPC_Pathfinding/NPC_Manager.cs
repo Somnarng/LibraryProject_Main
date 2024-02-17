@@ -16,7 +16,7 @@ public class NPC_Manager : MonoBehaviour
     Seeker seeker;
     Path currentPath;
     int currentWaypoint = 0;
-    int currentHour = -1;
+    TimeManager.TimeSlot currentHour;
 
     void OnEnable()
     {
@@ -39,7 +39,6 @@ public class NPC_Manager : MonoBehaviour
             var player = GameObject.FindGameObjectWithTag("Player");
             currentScheduleItem = new ScheduleItem
             {
-                Activity = "Wait",
                 Scene = GameManager.Game.Scene.Name
             };
             seeker.StartPath(this.transform.position, player.transform.position, OnScheduledPathReady);
@@ -66,47 +65,31 @@ public class NPC_Manager : MonoBehaviour
 
     void CheckSchedule()
     {
-        if (GameManager.Time.hourOfDay != currentHour)
+        if (GameManager.Time.currentTimeSlot != currentHour)
         {
-            currentHour = GameManager.Time.hourOfDay;
+            currentHour = GameManager.Time.currentTimeSlot;
 
-            var h = GameManager.Time.hourOfDay;
+            var h = GameManager.Time.currentTimeSlot;
             var d = GameManager.Game.dayOfMonth;
             var wd = GameManager.Game.WeekDay;
 
-            var item = State.LifetimeSchedule.FirstOrDefault(s => s.Day == d && s.Hour == h);
+            var item = State.LifetimeSchedule.FirstOrDefault(s => s.Day == d && s.Slot == h);
             if (item == null)
             {
-                item = State.WeeklySchedule.FirstOrDefault(s => s.Weekday == wd && s.Hour == h);
+                item = State.WeeklySchedule.FirstOrDefault(s => s.Weekday == wd && s.Slot == h);
             }
             if (item != null)
             {
                 currentScheduleItem = item;
-                if (currentScheduleItem.Scene == GameManager.Game.Scene.Name)
+                if (currentScheduleItem.Scene == GameManager.Game.Scene.Name) //if the current scene is the same as the scene where the first routine for this slot is located, go THERE
                 {
-                    if (TeleportToScheduleItem)
-                    {
-                        transform.position = item.Position;
+                        transform.position = item.Routine[0].Position;
                         TeleportToScheduleItem = false;
                         OnScheduledPathComplete();
-                    }
-                    else
-                    {
-                        seeker.StartPath(transform.position, currentScheduleItem.Position, OnScheduledPathReady);
-                    }
-
                 }
                 else
                 {
-                    var exit = GameManager.Game.Scene.Exits.FirstOrDefault(e => e.To == currentScheduleItem.Scene);
-                    if (exit != null)
-                    {
-                        seeker.StartPath(transform.position, exit.Position, OnScheduledPathReady);
-                    }
-                    else
-                    {
-                        seeker.StartPath(transform.position, GameManager.Game.Scene.Exits.FirstOrDefault().Position, OnScheduledPathReady);
-                    }
+                        gameObject.SetActive(false); //or else, destroy
                 }
             }
         }
@@ -121,9 +104,10 @@ public class NPC_Manager : MonoBehaviour
 
     void OnScheduledPathComplete()
     {
+        State.routinePosition++;
         State.Scene = currentScheduleItem.Scene;
-        State.Position = currentScheduleItem.Position;
-        State.Activity = currentScheduleItem.Activity;
+        State.Position = currentScheduleItem.Routine[State.routinePosition].Position;
+        State.Activity = currentScheduleItem.Routine[State.routinePosition].Activity;
         SaveStateToGameManager();
 
         if (currentScheduleItem.Scene != GameManager.Game.Scene.Name)

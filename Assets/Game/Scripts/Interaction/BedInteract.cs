@@ -6,7 +6,7 @@ public class BedInteract : MonoBehaviour, IInteractable
 {
     [SerializeField] private bool interactable;
     [SerializeField] private string interactText;
-    [SerializeField] private float timeToSet;
+    [SerializeField] private TimeManager.TimeSlot timeToSet;
     public void Interact()
     {
         StartCoroutine(Sleep());

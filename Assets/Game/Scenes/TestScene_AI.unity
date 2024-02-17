@@ -197,7 +197,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4703451067142162, guid: b6993e89d9af3f64182a41c77cf345c2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.31570435
+      value: 11.908131
       objectReference: {fileID: 0}
     - target: {fileID: 4703451067142162, guid: b6993e89d9af3f64182a41c77cf345c2, type: 3}
       propertyPath: m_LocalPosition.y
@@ -4380,27 +4380,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd41505808a6ef44eab48fd2d704589b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Events:
-  - StartTime: 0
-    EndTime: 0.0625
-    OnEvents:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 0}
-          m_TargetAssemblyTypeName: TimeManager, Assembly-CSharp
-          m_MethodName: ProgressDay
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-    OffEvent:
-      m_PersistentCalls:
-        m_Calls: []
 --- !u!1001 &921131415
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4463,6 +4442,52 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7292588775863775145, guid: ad982277c3c11a04ea18d59eaa1223a5,
+        type: 3}
+      propertyPath: npcs.Array.data[0].Name
+      value: Guy
+      objectReference: {fileID: 0}
+    - target: {fileID: 7292588775863775145, guid: ad982277c3c11a04ea18d59eaa1223a5,
+        type: 3}
+      propertyPath: npcs.Array.data[0].Scene
+      value: TestScene_AI
+      objectReference: {fileID: 0}
+    - target: {fileID: 7292588775863775145, guid: ad982277c3c11a04ea18d59eaa1223a5,
+        type: 3}
+      propertyPath: npcs.Array.data[0].Prefab
+      value: 
+      objectReference: {fileID: 634833519685632400, guid: 3fd0698d88e40784fbd9cf0085d7f89d,
+        type: 3}
+    - target: {fileID: 7292588775863775145, guid: ad982277c3c11a04ea18d59eaa1223a5,
+        type: 3}
+      propertyPath: npcs.Array.data[0].WeeklySchedule.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7292588775863775145, guid: ad982277c3c11a04ea18d59eaa1223a5,
+        type: 3}
+      propertyPath: npcs.Array.data[0].WeeklySchedule.Array.data[0].Day
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7292588775863775145, guid: ad982277c3c11a04ea18d59eaa1223a5,
+        type: 3}
+      propertyPath: npcs.Array.data[0].WeeklySchedule.Array.data[0].Scene
+      value: TestScene_AI
+      objectReference: {fileID: 0}
+    - target: {fileID: 7292588775863775145, guid: ad982277c3c11a04ea18d59eaa1223a5,
+        type: 3}
+      propertyPath: npcs.Array.data[0].WeeklySchedule.Array.data[0].Routine.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7292588775863775145, guid: ad982277c3c11a04ea18d59eaa1223a5,
+        type: 3}
+      propertyPath: npcs.Array.data[0].WeeklySchedule.Array.data[0].Routine.Array.data[0].Activity
+      value: Stand
+      objectReference: {fileID: 0}
+    - target: {fileID: 7292588775863775145, guid: ad982277c3c11a04ea18d59eaa1223a5,
+        type: 3}
+      propertyPath: npcs.Array.data[0].WeeklySchedule.Array.data[0].Routine.Array.data[0].timerToChange
+      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

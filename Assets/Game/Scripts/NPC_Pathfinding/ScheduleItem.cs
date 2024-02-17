@@ -3,13 +3,19 @@ using System.Collections.Generic;
 [System.Serializable]
 public class ScheduleItem
 {
-    public int Year;
-    public int Month;
     public int Day;
+    public int Month;
     public int Weekday;
-    public int Hour;
+    public TimeManager.TimeSlot Slot;
     public string Scene;
+    public Routine[] Routine;
+}
+
+
+[System.Serializable]
+public class Routine
+{
     public Vector3 Position;
     public string Activity;
-    public string FromExit;
+    public float timerToChange; //will move to this position after the timer hits this number.
 }

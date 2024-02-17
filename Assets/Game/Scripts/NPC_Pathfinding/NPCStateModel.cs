@@ -7,16 +7,16 @@ using System.Linq;
 public class NPCStateModel
 {
     public string Name;
-    public GameObject Prefab {  get; set; }
+    public GameObject Prefab;
     public Vector3 Position { get; set; }
     public List<GameFlag> Flags { get; set; }
     public string Scene;
     public string Activity { get; set; }
+    public int routinePosition;
 
-    public List<ScheduleItem> WeeklySchedule { get; set; }
-    public List<ScheduleItem> LifetimeSchedule { get; set; }
-    // model
-    // animator
+    public List<ScheduleItem> WeeklySchedule;
+    public List<ScheduleItem> LifetimeSchedule;
+
     public void CreateInScene(Vector3 instantiatePos)
     {
         var instance = (GameObject)UnityEngine.Object.Instantiate(Prefab, instantiatePos, Quaternion.identity);
