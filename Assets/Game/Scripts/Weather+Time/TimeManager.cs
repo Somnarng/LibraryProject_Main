@@ -1,6 +1,8 @@
 using PixelCrushers.DialogueSystem;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// The TimeManager is the entry point to all the game system. It's execution order is set very low to make sure
@@ -21,13 +23,14 @@ public class TimeManager : Singleton<TimeManager>, IDataPersistence
     public float DayDurationInSeconds;
     public float StartingTime = 0.0f;
     public TimeSlot StartingTimeSlot;
-    public bool MilitaryTime = true;
+    //public bool MilitaryTime = true;
 
     [Header("Day settings")]
     public int DaysInMonth;
     public int MonthsInYear;
 
     private bool m_IsTicking;
+    private SceneModel sceneModel;
 
     private List<DayEventHandler> m_EventHandlers = new();
 
@@ -67,6 +70,8 @@ public class TimeManager : Singleton<TimeManager>, IDataPersistence
     {
         if (m_IsTicking)
         {
+            if(sceneModel.NPCRoutineTimer > 10000) { return; }
+            sceneModel.NPCRoutineTimer++;
             /*float previousRatio = CurrentDayRatio;
             m_CurrentTimeOfTheDay += Time.deltaTime;
             while (m_CurrentTimeOfTheDay > DayDurationInSeconds)
@@ -123,6 +128,7 @@ public class TimeManager : Singleton<TimeManager>, IDataPersistence
         m_CurrentDayOfMonth = data.dayOfMonth;
         m_CurrentMonthOfYear = data.monthOfYear;
         m_CurrentYear = data.year;
+        sceneModel = NPCSceneManager.Instance.Game.Scenes.Where(s => s.Name == SceneManager.GetActiveScene().name).FirstOrDefault(); //finds scene with name that matches the active scene, ticks that timer.
     }
 
     public void ProgressDay()
@@ -141,6 +147,50 @@ public class TimeManager : Singleton<TimeManager>, IDataPersistence
         Debug.Log("Day:" + m_CurrentDayOfMonth + " Month:" + m_CurrentMonthOfYear + " Year:" + m_CurrentYear);
         UpdateDialogueVariables();
         DataPersistenceManager.Instance.SaveGame();
+    }
+    public void ProgressTime() //call this function to progress to the next timeslot
+    {
+        switch (currentTimeSlot)
+        {
+            case TimeSlot.Morning:
+                currentTimeSlot = TimeSlot.Noon;
+                TimerText.UpdateText(TimeSlot.Noon.ToString());
+                foreach(SceneModel scene in NPCSceneManager.Instance.Game.Scenes)
+                {
+                    scene.NPCRoutineTimer = 0;
+                }
+                break;
+            case TimeSlot.Noon:
+                currentTimeSlot = TimeSlot.Afternoon;
+                TimerText.UpdateText(TimeSlot.Afternoon.ToString());
+                foreach (SceneModel scene in NPCSceneManager.Instance.Game.Scenes)
+                {
+                    scene.NPCRoutineTimer = 0;
+                }
+                break;
+            case TimeSlot.Afternoon:
+                currentTimeSlot = TimeSlot.Evening;
+                TimerText.UpdateText(TimeSlot.Evening.ToString());
+                foreach (SceneModel scene in NPCSceneManager.Instance.Game.Scenes)
+                {
+                    scene.NPCRoutineTimer = 0;
+                }
+                break;
+            case TimeSlot.Evening:
+                currentTimeSlot = TimeSlot.Morning;
+                TimerText.UpdateText(TimeSlot.Morning.ToString());
+                foreach (SceneModel scene in NPCSceneManager.Instance.Game.Scenes)
+                {
+                    scene.NPCRoutineTimer = 0;
+                }
+                Debug.Log("Day Passed!");
+                break;
+            default:
+                currentTimeSlot = TimeSlot.Morning;
+                TimerText.UpdateText(TimeSlot.Morning.ToString());
+                Debug.Log("ERROR, ENUM FOR TIMESLOT PROGRESSION BROKEN.");
+                break;
+        }
     }
 
     public void UpdateDialogueVariables()

@@ -6,8 +6,8 @@ using System.Linq;
 [System.Serializable]
 public class SceneModel {
 	public string Name;
+	public float NPCRoutineTimer;
 	public List<GameFlag> Flags;
-	public List<SceneExitModel> Exits;
 
 	public SceneModel(){
 		Flags = new List<GameFlag>();

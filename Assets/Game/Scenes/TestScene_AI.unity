@@ -4388,6 +4388,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3136141523751525429, guid: ad982277c3c11a04ea18d59eaa1223a5,
+        type: 3}
+      propertyPath: Game.Scene.Name
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3136141523751525429, guid: ad982277c3c11a04ea18d59eaa1223a5,
+        type: 3}
+      propertyPath: Game.Scenes.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3136141523751525429, guid: ad982277c3c11a04ea18d59eaa1223a5,
+        type: 3}
+      propertyPath: Game.Scenes.Array.data[0].Name
+      value: TestScene_AI
+      objectReference: {fileID: 0}
+    - target: {fileID: 3136141523751525429, guid: ad982277c3c11a04ea18d59eaa1223a5,
+        type: 3}
+      propertyPath: Game.Scenes.Array.data[1].Name
+      value: TestScene_AI2
+      objectReference: {fileID: 0}
     - target: {fileID: 4686499554708113646, guid: ad982277c3c11a04ea18d59eaa1223a5,
         type: 3}
       propertyPath: m_Name
@@ -4471,12 +4491,47 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7292588775863775145, guid: ad982277c3c11a04ea18d59eaa1223a5,
         type: 3}
+      propertyPath: npcs.Array.data[0].WeeklySchedule.Array.data[1].Day
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7292588775863775145, guid: ad982277c3c11a04ea18d59eaa1223a5,
+        type: 3}
+      propertyPath: npcs.Array.data[0].WeeklySchedule.Array.data[0].Month
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7292588775863775145, guid: ad982277c3c11a04ea18d59eaa1223a5,
+        type: 3}
       propertyPath: npcs.Array.data[0].WeeklySchedule.Array.data[0].Scene
       value: TestScene_AI
       objectReference: {fileID: 0}
     - target: {fileID: 7292588775863775145, guid: ad982277c3c11a04ea18d59eaa1223a5,
         type: 3}
+      propertyPath: npcs.Array.data[0].WeeklySchedule.Array.data[1].Month
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7292588775863775145, guid: ad982277c3c11a04ea18d59eaa1223a5,
+        type: 3}
+      propertyPath: npcs.Array.data[0].WeeklySchedule.Array.data[1].Scene
+      value: TestScene_AI
+      objectReference: {fileID: 0}
+    - target: {fileID: 7292588775863775145, guid: ad982277c3c11a04ea18d59eaa1223a5,
+        type: 3}
+      propertyPath: npcs.Array.data[0].WeeklySchedule.Array.data[0].Weekday
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7292588775863775145, guid: ad982277c3c11a04ea18d59eaa1223a5,
+        type: 3}
+      propertyPath: npcs.Array.data[0].WeeklySchedule.Array.data[1].Weekday
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7292588775863775145, guid: ad982277c3c11a04ea18d59eaa1223a5,
+        type: 3}
       propertyPath: npcs.Array.data[0].WeeklySchedule.Array.data[0].Routine.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7292588775863775145, guid: ad982277c3c11a04ea18d59eaa1223a5,
+        type: 3}
+      propertyPath: npcs.Array.data[0].WeeklySchedule.Array.data[1].Routine.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7292588775863775145, guid: ad982277c3c11a04ea18d59eaa1223a5,
@@ -4486,8 +4541,38 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7292588775863775145, guid: ad982277c3c11a04ea18d59eaa1223a5,
         type: 3}
+      propertyPath: npcs.Array.data[0].WeeklySchedule.Array.data[0].Routine.Array.data[1].Activity
+      value: Stand
+      objectReference: {fileID: 0}
+    - target: {fileID: 7292588775863775145, guid: ad982277c3c11a04ea18d59eaa1223a5,
+        type: 3}
+      propertyPath: npcs.Array.data[0].WeeklySchedule.Array.data[1].Routine.Array.data[0].Activity
+      value: Stand
+      objectReference: {fileID: 0}
+    - target: {fileID: 7292588775863775145, guid: ad982277c3c11a04ea18d59eaa1223a5,
+        type: 3}
+      propertyPath: npcs.Array.data[0].WeeklySchedule.Array.data[0].Routine.Array.data[1].Position.x
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7292588775863775145, guid: ad982277c3c11a04ea18d59eaa1223a5,
+        type: 3}
+      propertyPath: npcs.Array.data[0].WeeklySchedule.Array.data[0].Routine.Array.data[1].Position.y
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7292588775863775145, guid: ad982277c3c11a04ea18d59eaa1223a5,
+        type: 3}
       propertyPath: npcs.Array.data[0].WeeklySchedule.Array.data[0].Routine.Array.data[0].timerToChange
-      value: 20
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 7292588775863775145, guid: ad982277c3c11a04ea18d59eaa1223a5,
+        type: 3}
+      propertyPath: npcs.Array.data[0].WeeklySchedule.Array.data[0].Routine.Array.data[1].timerToChange
+      value: 400
+      objectReference: {fileID: 0}
+    - target: {fileID: 7292588775863775145, guid: ad982277c3c11a04ea18d59eaa1223a5,
+        type: 3}
+      propertyPath: npcs.Array.data[0].WeeklySchedule.Array.data[1].Routine.Array.data[0].timerToChange
+      value: 200
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

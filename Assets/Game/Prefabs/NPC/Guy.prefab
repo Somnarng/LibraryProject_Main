@@ -353,6 +353,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: Guy
+  currentHour: 1
 --- !u!1 &7620225871474410948
 GameObject:
   m_ObjectHideFlags: 0

@@ -27,11 +27,11 @@ public class NPCStateModel
     }
     public void CreateInScene()
     {
-        var instance = (GameObject)UnityEngine.Object.Instantiate(Prefab, this.Position, Quaternion.identity);
+        var instance = Object.Instantiate(Prefab, this.Position, Quaternion.identity);
         var npcInstanceState = instance.GetComponent<NPC_Manager>();
         npcInstanceState.State = this;
         npcInstanceState.TeleportToScheduleItem = true;
-        npcInstanceState.GameManager = UnityEngine.GameObject.FindObjectOfType<NPCSceneManager>();
+        npcInstanceState.GameManager = GameObject.FindObjectOfType<NPCSceneManager>();
         npcInstanceState.enabled = true;
     }
 }

@@ -2,7 +2,7 @@
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+[DefaultExecutionOrder(-999)]
 public class NPCSceneManager : Singleton<NPCSceneManager>, IDataPersistence
 {
 
@@ -10,81 +10,50 @@ public class NPCSceneManager : Singleton<NPCSceneManager>, IDataPersistence
     public TimeManager Time;
     public NPCList NPCList;
 
-    //int currentHour = -1;
+    TimeManager.TimeSlot currentHour;
 
-    // Use this for initialization
+    // Use this for initialization (disable Game = Data in load)
 
-    private void Awake()
+    protected override void OnEnableCallback()
     {
         Time = TimeManager.Instance; //sets timemanager to active time manager
 
         NPCList = GetComponent<NPCList>(); //gets npc list from gameobject
 
-        foreach (NPCStateModel npc in NPCList.npcs)
+        foreach (NPCStateModel npc in NPCList.npcs) //searches through npc list, adds any missing npcs to game managers list
         {
-            Game.NPCS.Add(new NPCStateModel //adds npc info to Game.NPCS
-            {
-                Name = npc.Name,
-                Prefab = npc.Prefab,
-                Position = new Vector3(3, 3, 3),
-                WeeklySchedule = npc.WeeklySchedule,
-                LifetimeSchedule = npc.LifetimeSchedule,
-                Scene = "TestScene_AI"
-            });
+            foreach (NPCStateModel n in Game.NPCS) { if (npc.Name == n.Name) return; }
+            Game.NPCS.Add(npc);
+            Debug.Log("npc added");
         }
 
         SceneModel TestScene = new SceneModel();
         TestScene.Name = "TestScene_AI"; //setup scene models for checking npc state
-        TestScene.Exits = new List<SceneExitModel>
-        {
-            new SceneExitModel
-            {
-                Position = new Vector3(11, 6.36000013f, 0),
-                To = "TestScene_AI2"
-            }
-        };
         SceneModel TestScene2 = new SceneModel();
         TestScene2.Name = "TestScene_AI2";
-        TestScene2.Exits = new List<SceneExitModel>
-        {
-            new SceneExitModel
-            {
-                Position = new Vector3(11, 6.36000013f, 0),
-                To = "TestScene_AI"
-            }
-        };
 
         Game.Scenes.Add(TestScene);
         Game.Scenes.Add(TestScene2);
         Game.Scene = TestScene;
-
-    }
-
-    private void OnEnable()
-    {
-        SceneManager.sceneLoaded += OnSceneLoaded;
-    }
-
-    private void OnDisable()
-    {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
+        Debug.Log(TestScene);
     }
 
     private void Update()
     {
-        //HandleTime();
+        HandleTime();
     }
 
     public void LoadData(PlayerStats data)
     {
-        Game = data;
+        //Game = data;
+
         //Set all scheduled task items for NPCS
         if (Game.NPCS == null || Game.NPCS.Count == 0) { Debug.Log("No NPCS!"); return; } //on game load or scene change, check for NPCS
         foreach (var npc in Game.NPCS) //for each npc in the npc list, if the scene is the same as the active scene, check their schedule.
         {
             if (npc.Scene == Game.Scene.Name)
             {
-                var item = npc.LifetimeSchedule.FirstOrDefault(s => s.Day == Game.dayOfMonth && s.Slot == Time.currentTimeSlot && s.Month == Game.monthOfYear);
+                var item = npc.LifetimeSchedule.FirstOrDefault(s => s.Day == Game.dayOfMonth && s.Slot == Time.currentTimeSlot && s.Month == Game.monthOfYear); //look at lifetime first, then check weekly
                 if (item == null)
                 {
                     item = npc.WeeklySchedule.FirstOrDefault(s => s.Weekday == Game.WeekDay && s.Slot == Time.currentTimeSlot);
@@ -98,10 +67,11 @@ public class NPCSceneManager : Singleton<NPCSceneManager>, IDataPersistence
         }
 
         Game.Scene = Game.Scenes.Where(s => s.Name == SceneManager.GetActiveScene().name).FirstOrDefault();
+        OnSceneLoaded();
     }
 
     
-    private void OnSceneLoaded(Scene scene, LoadSceneMode sceneMode)
+    private void OnSceneLoaded()
     {
         NPC_Manager[] allNPCs = UnityEngine.Object.FindObjectsOfType<NPC_Manager>(true);
         foreach (var c in allNPCs)
@@ -126,14 +96,14 @@ public class NPCSceneManager : Singleton<NPCSceneManager>, IDataPersistence
         }
     }
 
-   /* void HandleTime()
+    void HandleTime()
     {
-        if (Time.hourOfDay != currentHour)
+        if (Time.currentTimeSlot != currentHour)
         {
-            currentHour = Time.hourOfDay;
+            currentHour = Time.currentTimeSlot;
             CheckAllAbsentSchedules();
         }
-    }*/
+    }
 
     public void SaveData(ref PlayerStats data)
     {
@@ -142,7 +112,7 @@ public class NPCSceneManager : Singleton<NPCSceneManager>, IDataPersistence
         data.Scene = Game.Scene;
     }
 
-   /* void CheckAllAbsentSchedules(bool forceAll = false)
+    void CheckAllAbsentSchedules(bool forceAll = false)
     {
         List<NPCStateModel> absentNpcs = new List<NPCStateModel>();
         if (forceAll)
@@ -156,35 +126,24 @@ public class NPCSceneManager : Singleton<NPCSceneManager>, IDataPersistence
 
         foreach (var npc in absentNpcs)
         {
-            var item = npc.LifetimeSchedule.FirstOrDefault(s => s.Day == Game.dayOfMonth && s.Hour == Time.hourOfDay);
+            var item = npc.LifetimeSchedule.FirstOrDefault(s => s.Day == Game.dayOfMonth && s.Slot == Time.currentTimeSlot);
             if (item == null)
             {
-                item = npc.WeeklySchedule.FirstOrDefault(s => s.Weekday == Game.WeekDay && s.Hour == Time.hourOfDay);
+                item = npc.WeeklySchedule.FirstOrDefault(s => s.Weekday == Game.WeekDay && s.Slot == Time.currentTimeSlot);
             }
             if (item != null)
             {
-                if (item.Scene == this.Game.Scene.Name)
+                if (item.Scene == Game.Scene.Name)
                 {
-                    Vector3 instantiatePos;
-                    if (!string.IsNullOrEmpty(item.FromExit))
-                    {
-                        instantiatePos = Game.Scene.Exits.FirstOrDefault(e => e.To == item.FromExit).Position;
-                    }
-                    else
-                    {
-                        instantiatePos = Game.Scene.Exits.FirstOrDefault().Position;
-                    }
-                    npc.Scene = this.Game.Scene.Name;
-                    npc.CreateInScene(instantiatePos);
+                    npc.Scene = Game.Scene.Name;
+                    npc.CreateInScene(item.Routine[0].Position); //spawn the npc at the position of the first item in their routine list
                 }
                 else
                 {
-                    npc.Activity = item.Activity;
-                    npc.Position = item.Position;
                     npc.Scene = item.Scene;
                 }
             }
         }
-    }*/
+    }
 
 }

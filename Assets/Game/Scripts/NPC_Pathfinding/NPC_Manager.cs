@@ -1,9 +1,8 @@
-using MoreMountains.TopDownEngine;
 using Pathfinding;
-using System.Collections.Generic;
-using UnityEngine;
 using System.Linq;
+using UnityEngine;
 using UnityEngine.SceneManagement;
+[DefaultExecutionOrder(50)]
 public class NPC_Manager : MonoBehaviour
 {
     public string Name;
@@ -16,19 +15,17 @@ public class NPC_Manager : MonoBehaviour
     Seeker seeker;
     Path currentPath;
     int currentWaypoint = 0;
+
+    [SerializeField]
     TimeManager.TimeSlot currentHour;
 
     void OnEnable()
     {
-        GameManager = FindAnyObjectByType<NPCSceneManager>();
-        State = GameManager.Game.NPCS.FirstOrDefault(n => n.Name == Name);
+        GameManager = NPCSceneManager.Instance;
         seeker = GetComponent<Seeker>();
-        var npc = GameManager.Game.NPCS.FirstOrDefault(n => n.Name == Name);
-        State.LifetimeSchedule = npc.LifetimeSchedule;
-        State.WeeklySchedule = npc.WeeklySchedule;
+        State = NPCSceneManager.Instance.Game.NPCS.Find(x => x.Name == Name);
 
         if (State == null) { enabled = false; }
-
     }
 
     void Update()
@@ -83,18 +80,29 @@ public class NPC_Manager : MonoBehaviour
                 currentScheduleItem = item;
                 if (currentScheduleItem.Scene == GameManager.Game.Scene.Name) //if the current scene is the same as the scene where the first routine for this slot is located, go THERE
                 {
-                        transform.position = item.Routine[0].Position;
-                        TeleportToScheduleItem = false;
-                        OnScheduledPathComplete();
+                    transform.position = item.Routine[0].Position;
+                    TeleportToScheduleItem = false;
+                    OnScheduledPathComplete();
                 }
                 else
                 {
-                        gameObject.SetActive(false); //or else, destroy
+                    gameObject.SetActive(false); //or else, destroy
                 }
             }
         }
-
     }
+
+    void CheckRoutine()
+    {
+        var sceneModel = NPCSceneManager.Instance.Game.Scenes.Where(s => s.Name == SceneManager.GetActiveScene().name).FirstOrDefault(); //finds scene with name that matches the active scene, ticks that timer.
+        if (State.Scene == sceneModel.Name)
+        {
+            //check timer of scenemodel, if timer goes over routine timer, start next routine path. if last routine path, stop checking.
+
+            seeker.StartPath(this.transform.position, currentScheduleItem.Routine[State.routinePosition + 1].Position, OnScheduledPathReady);
+        }
+    }
+
 
     void OnScheduledPathReady(Path p)
     {
