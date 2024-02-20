@@ -1,4 +1,5 @@
 using PixelCrushers.DialogueSystem;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -15,8 +16,10 @@ public class TimeManager : Singleton<TimeManager>, IDataPersistence
     public WeatherSystem WeatherSystem { get; set; }
     public TimerUpdater TimerText { get; set; }
 
+    public static Action TimePassed;
+
     // Will return the ratio of time for the current day between 0 (00:00) and 1 (23:59).
-    //public float CurrentDayRatio => m_CurrentTimeOfTheDay / DayDurationInSeconds;
+    public float CurrentDayRatio;
 
     [Header("Time settings")]
     [Min(1.0f)]
@@ -30,7 +33,7 @@ public class TimeManager : Singleton<TimeManager>, IDataPersistence
     public int MonthsInYear;
 
     private bool m_IsTicking;
-    private SceneModel sceneModel;
+    public SceneModel sceneModel;
 
     private List<DayEventHandler> m_EventHandlers = new();
 
@@ -64,13 +67,14 @@ public class TimeManager : Singleton<TimeManager>, IDataPersistence
     {
         //m_CurrentTimeOfTheDay = StartingTime;
         currentTimeSlot = StartingTimeSlot;
+        TimerText.UpdateText(currentTimeSlot.ToString());
     }
 
     private void Update()
     {
         if (m_IsTicking)
         {
-            if(sceneModel.NPCRoutineTimer > 10000) { return; }
+            if (sceneModel.NPCRoutineTimer > 10000) { return; }
             sceneModel.NPCRoutineTimer++;
             /*float previousRatio = CurrentDayRatio;
             m_CurrentTimeOfTheDay += Time.deltaTime;
@@ -150,47 +154,41 @@ public class TimeManager : Singleton<TimeManager>, IDataPersistence
     }
     public void ProgressTime() //call this function to progress to the next timeslot
     {
+        Debug.Log("Timeslot progressing from " + currentTimeSlot);
+        TimePassed?.Invoke(); //invoke timepassed event
         switch (currentTimeSlot)
         {
             case TimeSlot.Morning:
                 currentTimeSlot = TimeSlot.Noon;
-                TimerText.UpdateText(TimeSlot.Noon.ToString());
-                foreach(SceneModel scene in NPCSceneManager.Instance.Game.Scenes)
-                {
-                    scene.NPCRoutineTimer = 0;
-                }
+                CurrentDayRatio = 0.5f;
                 break;
             case TimeSlot.Noon:
                 currentTimeSlot = TimeSlot.Afternoon;
-                TimerText.UpdateText(TimeSlot.Afternoon.ToString());
-                foreach (SceneModel scene in NPCSceneManager.Instance.Game.Scenes)
-                {
-                    scene.NPCRoutineTimer = 0;
-                }
+                CurrentDayRatio = .63f;
                 break;
             case TimeSlot.Afternoon:
                 currentTimeSlot = TimeSlot.Evening;
-                TimerText.UpdateText(TimeSlot.Evening.ToString());
-                foreach (SceneModel scene in NPCSceneManager.Instance.Game.Scenes)
-                {
-                    scene.NPCRoutineTimer = 0;
-                }
+                CurrentDayRatio = .76f;
                 break;
             case TimeSlot.Evening:
                 currentTimeSlot = TimeSlot.Morning;
-                TimerText.UpdateText(TimeSlot.Morning.ToString());
-                foreach (SceneModel scene in NPCSceneManager.Instance.Game.Scenes)
-                {
-                    scene.NPCRoutineTimer = 0;
-                }
+                CurrentDayRatio = 0.36f;
                 Debug.Log("Day Passed!");
                 break;
             default:
                 currentTimeSlot = TimeSlot.Morning;
                 TimerText.UpdateText(TimeSlot.Morning.ToString());
+                CurrentDayRatio = 0.36f;
                 Debug.Log("ERROR, ENUM FOR TIMESLOT PROGRESSION BROKEN.");
                 break;
         }
+
+        foreach (SceneModel scene in NPCSceneManager.Instance.Game.Scenes)
+        {
+            scene.NPCRoutineTimer = 0;
+        }
+        TimerText.UpdateText(currentTimeSlot.ToString());
+        DayCycleHandler.UpdateLight(CurrentDayRatio);
     }
 
     public void UpdateDialogueVariables()
@@ -235,7 +233,7 @@ public class TimeManager : Singleton<TimeManager>, IDataPersistence
         {
             return GetMilitaryTimeAsString(CurrentDayRatio);
         }*/
-        return(currentTimeSlot.ToString());
+        return (currentTimeSlot.ToString());
     }
 
     /// <summary>
@@ -249,10 +247,10 @@ public class TimeManager : Singleton<TimeManager>, IDataPersistence
         var minute = GetMinuteFromRatio(ratio);
         return $"{hour}:{minute:00}";
     }
-    
+
     public static string GetTimeAsString(float ratio)
     {
-        var hour = GetHourFromRatio(ratio);
+        /*var hour = GetHourFromRatio(ratio);
         var minute = GetMinuteFromRatio(ratio);
         string period;
         if (hour >= 12) { period = "PM"; TimeManager.Instance.ratioMultiplier = 2; }
@@ -264,7 +262,7 @@ public class TimeManager : Singleton<TimeManager>, IDataPersistence
         else if (hour == 0) { hour = 12; }
         return $"{hour}:{minute:00} " + period;
     }
-
+/*
     public static string ConvertCustomTimeToString(float ratio)
     {
         var hour = GetHourFromRatio(ratio);

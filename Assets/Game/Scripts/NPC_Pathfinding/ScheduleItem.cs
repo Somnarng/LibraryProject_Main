@@ -17,5 +17,6 @@ public class Routine
 {
     public Vector3 Position;
     public string Activity;
+    public bool completed;
     public float timerToChange; //will move to this position after the timer hits this number.
 }

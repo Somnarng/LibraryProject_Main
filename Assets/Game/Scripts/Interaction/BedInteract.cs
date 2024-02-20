@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BedInteract : MonoBehaviour, IInteractable
 {
-    [SerializeField] private bool interactable;
+    [SerializeField] private bool interactable = true;
     [SerializeField] private string interactText;
     [SerializeField] private TimeManager.TimeSlot timeToSet;
     public void Interact()
@@ -24,6 +24,12 @@ public class BedInteract : MonoBehaviour, IInteractable
         TimeManager.Instance.Resume();
         yield return null;
     }
+
+    public void DebugProgressTime() //used for debugging timeslot progression system
+    {
+        TimeManager.Instance.ProgressTime();
+    }
+
     public bool Interactable { get { return interactable; } set { interactable = value; } }
     public string InteractText { get { return interactText; } set { interactText = value; } }
     public Transform objectTransform { get => gameObject.transform; }
