@@ -35,8 +35,8 @@ public class NPC_Manager : MonoBehaviour
 
     void Update()
     {
-        CheckRoutine();
-        HandleMove();
+      //  CheckRoutine();
+      //  HandleMove();
     }
 
     void HandleMove()
@@ -60,14 +60,13 @@ public class NPC_Manager : MonoBehaviour
             State.routinePosition = 0; //reset routine counter
             currentHour = GameManager.Time.currentTimeSlot;
 
-            var h = GameManager.Time.currentTimeSlot;
             var d = GameManager.Game.dayOfMonth;
             var wd = GameManager.Game.WeekDay;
 
-            var item = State.LifetimeSchedule.FirstOrDefault(s => s.Day == d && s.Slot == h);
+            var item = State.LifetimeSchedule.FirstOrDefault(s => s.Day == d && s.Slot == currentHour);
             if (item == null)
             {
-                item = State.WeeklySchedule.FirstOrDefault(s => s.Weekday == wd && s.Slot == h);
+                item = State.WeeklySchedule.FirstOrDefault(s => s.Weekday == wd && s.Slot == currentHour);
             }
             if (item != null)
             {
@@ -97,16 +96,15 @@ public class NPC_Manager : MonoBehaviour
             //check timer of scenemodel, if timer goes over routine timer, start next routine path. if last routine path, stop checking.
             foreach (Routine routine in currentScheduleItem.Routine)
             {
-                if (TimeManager.Instance.sceneModel.NPCRoutineTimer > routine.timerToChange && routine.completed == false)
+                if (TimeManager.Instance.sceneModel.NPCRoutineTimer > routine.timerToChange && routine.completed == false && currentPath == null)
                 {
-                    if(State.routinePosition != currentScheduleItem.Routine.Count()) State.routinePosition++;//increase position in routine list and set completion to true
+                    if(State.routinePosition < currentScheduleItem.Routine.Count()) State.routinePosition++;//increase position in routine list and set completion to true
                     routine.completed = true;
                     seeker.StartPath(this.transform.position, currentScheduleItem.Routine[State.routinePosition].Position, OnScheduledPathReady);
                 }
             }
         }
     }
-
 
     void OnScheduledPathReady(Path p)
     {

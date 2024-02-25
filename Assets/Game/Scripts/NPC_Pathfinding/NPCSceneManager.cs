@@ -102,6 +102,7 @@ public class NPCSceneManager : Singleton<NPCSceneManager>, IDataPersistence
         {
             currentHour = Time.currentTimeSlot;
             CheckAllAbsentSchedules();
+            //Debug.Log(Time.currentTimeSlot);
         }
     }
 

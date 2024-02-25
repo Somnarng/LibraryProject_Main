@@ -154,8 +154,6 @@ public class TimeManager : Singleton<TimeManager>, IDataPersistence
     }
     public void ProgressTime() //call this function to progress to the next timeslot
     {
-        Debug.Log("Timeslot progressing from " + currentTimeSlot);
-        TimePassed?.Invoke(); //invoke timepassed event
         switch (currentTimeSlot)
         {
             case TimeSlot.Morning:
@@ -182,7 +180,8 @@ public class TimeManager : Singleton<TimeManager>, IDataPersistence
                 Debug.Log("ERROR, ENUM FOR TIMESLOT PROGRESSION BROKEN.");
                 break;
         }
-
+        Debug.Log("Time is " + currentTimeSlot);
+        TimePassed?.Invoke(); //invoke timepassed event
         foreach (SceneModel scene in NPCSceneManager.Instance.Game.Scenes)
         {
             scene.NPCRoutineTimer = 0;
