@@ -19,7 +19,7 @@ public class NPC_Manager : MonoBehaviour
     [SerializeField]
     TimeManager.TimeSlot currentHour;
 
-    void OnEnable()
+    private void OnEnable()
     {
         GameManager = NPCSceneManager.Instance;
         seeker = GetComponent<Seeker>();

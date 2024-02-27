@@ -22,7 +22,7 @@ public class NPCStateModel
         var instance = (GameObject)UnityEngine.Object.Instantiate(Prefab, instantiatePos, Quaternion.identity);
         var npcInstanceState = instance.GetComponent<NPC_Manager>();
         npcInstanceState.State = this;
-        npcInstanceState.GameManager = UnityEngine.GameObject.FindObjectOfType<NPCSceneManager>();
+        npcInstanceState.GameManager = NPCSceneManager.Instance;
         npcInstanceState.enabled = true;
     }
     public void CreateInScene()
@@ -31,7 +31,7 @@ public class NPCStateModel
         var npcInstanceState = instance.GetComponent<NPC_Manager>();
         npcInstanceState.State = this;
         npcInstanceState.TeleportToScheduleItem = true;
-        npcInstanceState.GameManager = GameObject.FindObjectOfType<NPCSceneManager>();
+        npcInstanceState.GameManager = NPCSceneManager.Instance;
         npcInstanceState.enabled = true;
     }
 }

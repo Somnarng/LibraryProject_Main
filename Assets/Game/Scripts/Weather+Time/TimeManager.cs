@@ -67,9 +67,8 @@ public class TimeManager : Singleton<TimeManager>, IDataPersistence
     {
         //m_CurrentTimeOfTheDay = StartingTime;
         currentTimeSlot = StartingTimeSlot;
-        TimerText.UpdateText(currentTimeSlot.ToString());
+        UpdateTimerText();
     }
-
     private void Update()
     {
         if (m_IsTicking)
@@ -105,6 +104,10 @@ public class TimeManager : Singleton<TimeManager>, IDataPersistence
                 TimerText.UpdateText(CurrentTimeAsString());
             */
         }
+    }
+    public void UpdateTimerText()
+    {
+        TimerText.UpdateText(currentTimeSlot.ToString());
     }
 
     public void Pause()
@@ -175,7 +178,7 @@ public class TimeManager : Singleton<TimeManager>, IDataPersistence
                 break;
             default:
                 currentTimeSlot = TimeSlot.Morning;
-                TimerText.UpdateText(TimeSlot.Morning.ToString());
+                UpdateTimerText();
                 CurrentDayRatio = 0.36f;
                 Debug.Log("ERROR, ENUM FOR TIMESLOT PROGRESSION BROKEN.");
                 break;

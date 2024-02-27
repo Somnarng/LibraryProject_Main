@@ -19,6 +19,7 @@ public class TimerUpdater : MonoBehaviour
     private void UpdateTimeManager(Scene scene, LoadSceneMode mode)
     {
         TimeManager.Instance.TimerText = this;
+        TimeManager.Instance.UpdateTimerText();
     }
     public void UpdateText(string text)
     {
