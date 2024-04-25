@@ -8,9 +8,11 @@ using UnityEngine.SceneManagement;
 public class TimerUpdater : MonoBehaviour
 {
     public TMP_Text Timer_Text;
+    public TMP_Text Day_Text;
     private void OnEnable()
     {
-        SceneManager.sceneLoaded += UpdateTimeManager;   
+        SceneManager.sceneLoaded += UpdateTimeManager;
+        
     }
     private void OnDisable()
     {
@@ -24,5 +26,9 @@ public class TimerUpdater : MonoBehaviour
     public void UpdateText(string text)
     {
         Timer_Text.text = text;
+    }
+    public void UpdateDayText(string text)
+    {
+        Day_Text.text = text;
     }
 }

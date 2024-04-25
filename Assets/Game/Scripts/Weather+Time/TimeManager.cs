@@ -108,6 +108,7 @@ public class TimeManager : Singleton<TimeManager>, IDataPersistence
     public void UpdateTimerText()
     {
         TimerText.UpdateText(currentTimeSlot.ToString());
+        TimerText.UpdateDayText("Day:" + m_CurrentDayOfMonth + " Month:" + m_CurrentMonthOfYear + " Year:" + m_CurrentYear);
     }
 
     public void Pause()
@@ -152,6 +153,7 @@ public class TimeManager : Singleton<TimeManager>, IDataPersistence
             m_CurrentYear++;
         }
         Debug.Log("Day:" + m_CurrentDayOfMonth + " Month:" + m_CurrentMonthOfYear + " Year:" + m_CurrentYear);
+        TimerText.UpdateDayText("Day:" + m_CurrentDayOfMonth + " Month:" + m_CurrentMonthOfYear + " Year:" + m_CurrentYear);
         UpdateDialogueVariables();
         DataPersistenceManager.Instance.SaveGame();
     }
