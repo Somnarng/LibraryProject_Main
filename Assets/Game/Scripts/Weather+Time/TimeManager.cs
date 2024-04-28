@@ -24,7 +24,7 @@ public class TimeManager : Singleton<TimeManager>, IDataPersistence
     [Header("Time settings")]
     [Min(1.0f)]
     public float DayDurationInSeconds;
-    public float StartingTime = 0.0f;
+    public float StartingTime = 0.36f;
     public TimeSlot StartingTimeSlot;
     //public bool MilitaryTime = true;
 
@@ -136,6 +136,7 @@ public class TimeManager : Singleton<TimeManager>, IDataPersistence
         m_CurrentDayOfMonth = data.dayOfMonth;
         m_CurrentMonthOfYear = data.monthOfYear;
         m_CurrentYear = data.year;
+        UpdateDialogueVariables();
         sceneModel = NPCSceneManager.Instance.Game.Scenes.Where(s => s.Name == SceneManager.GetActiveScene().name).FirstOrDefault(); //finds scene with name that matches the active scene, ticks that timer.
     }
 

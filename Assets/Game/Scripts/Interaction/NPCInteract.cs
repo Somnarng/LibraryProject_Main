@@ -1,18 +1,17 @@
 using PixelCrushers.DialogueSystem;
 using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(Collider2D))]
 public class NPCInteract : MonoBehaviour, IInteractable
 {
     [SerializeField] private bool interactable;
     [SerializeField] private string interactText;
-
-    [Header("Relationships")]
-    [SerializeField] private string conversationToTrigger;
+    [SerializeField] private UnityEvent npcEvent;
 
     public void Interact()
     {
-        DialogueManager.StartConversation(conversationToTrigger);
+        npcEvent?.Invoke();   
     }
     public bool Interactable { get { return interactable; } set { interactable = value; } }
     public string InteractText { get { return interactText; } set { interactText = value; } }

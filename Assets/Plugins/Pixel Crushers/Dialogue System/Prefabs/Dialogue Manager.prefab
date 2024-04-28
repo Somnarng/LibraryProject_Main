@@ -699,10 +699,10 @@ MonoBehaviour:
   panel: {fileID: 0}
   portraitImage: {fileID: 810475667952899236}
   portraitName:
-    m_uiText: {fileID: 8212556615497938811}
+    m_uiText: {fileID: 0}
     m_textMeshProUGUI: {fileID: 0}
   subtitleText:
-    m_uiText: {fileID: 5694312148437146644}
+    m_uiText: {fileID: 0}
     m_textMeshProUGUI: {fileID: 0}
   addSpeakerName: 0
   addSpeakerNameFormat: '{0}: {1}'

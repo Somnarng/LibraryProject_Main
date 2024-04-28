@@ -28,11 +28,15 @@ public class NPCSceneManager : Singleton<NPCSceneManager>, IDataPersistence
         }
 
         SceneModel TestScene = new SceneModel();
-        TestScene.Name = "TestScene_AI"; //setup scene models for checking npc state
+        TestScene.Name = "TestScene"; //setup scene models for checking npc state
+
+        SceneModel TestScene_AI = new SceneModel();
+        TestScene_AI.Name = "TestScene_AI"; //setup scene models for checking npc state
         SceneModel TestScene2 = new SceneModel();
         TestScene2.Name = "TestScene_AI2";
 
         Game.Scenes.Add(TestScene);
+        Game.Scenes.Add(TestScene_AI);
         Game.Scenes.Add(TestScene2);
         Game.Scene = TestScene;
         Debug.Log(TestScene);

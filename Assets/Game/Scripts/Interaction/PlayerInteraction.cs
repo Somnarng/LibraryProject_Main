@@ -15,6 +15,7 @@ public class PlayerInteraction : MonoBehaviour
     private bool canInteract = true;
     private bool inInteractRange = false;
     private int count = 0;
+    private bool Quitting = false;
     private IInteractable object1;
 
     private void Start()
@@ -101,6 +102,7 @@ public class PlayerInteraction : MonoBehaviour
 
     void FindTarget() //looks for the gameobject in interactableObject with the smallest distance from the player. this gameobject will be the "selected" object for interactions.
     {
+        if (Quitting == true) { return; }
         float lowestDist = Mathf.Infinity;
 
         for (int i = 0; i < interactableObject.Count; i++)
@@ -120,5 +122,9 @@ public class PlayerInteraction : MonoBehaviour
                 Debug.Log(object1);
             }
         }
+    }
+    private void OnApplicationQuit()
+    {
+        Quitting = true;
     }
 }

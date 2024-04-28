@@ -7,9 +7,11 @@ public class BedInteract : MonoBehaviour, IInteractable
     [SerializeField] private bool interactable = true;
     [SerializeField] private string interactText;
     [SerializeField] private TimeManager.TimeSlot timeToSet;
+    [SerializeField] private bool sleep;
     public void Interact()
     {
-        StartCoroutine(Sleep());
+        if (sleep == true) { StartCoroutine(Sleep()); }
+        else { StartCoroutine(DebugProgressTime()); }
     }
 
     public IEnumerator Sleep()
@@ -25,9 +27,15 @@ public class BedInteract : MonoBehaviour, IInteractable
         yield return null;
     }
 
-    public void DebugProgressTime() //used for debugging timeslot progression system
+    public IEnumerator DebugProgressTime() //used for debugging timeslot progression system
     {
+        MMFadeInEvent.Trigger(0.5f, MMTweenType.DefaultEaseInCubic);
+        TimeManager.Instance.Pause();
+        yield return new WaitForSeconds(0.7f);
         TimeManager.Instance.ProgressTime();
+        MMFadeOutEvent.Trigger(0.5f, MMTweenType.DefaultEaseInCubic);
+        TimeManager.Instance.Resume();
+        yield return null;
     }
 
     public bool Interactable { get { return interactable; } set { interactable = value; } }

@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Pixel Crushers. All rights reserved.
 
+using PixelCrushers.DialogueSystem.ChatMapper;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
@@ -43,6 +44,9 @@ namespace PixelCrushers.DialogueSystem
 
             [Tooltip("Invoked just before a line is delivered. Passes Subtitle.")]
             public SubtitleEvent onConversationLine = new SubtitleEvent();
+
+            [Tooltip("Invoked when a conversation reaches the last line. Transform is primary actor (typically player).")]
+            public SubtitleEvent onConversationLastLine = new SubtitleEvent();
 
             [Tooltip("Invoked when a line has finished. Passes Subtitle.")]
             public SubtitleEvent onConversationLineEnd = new SubtitleEvent();
@@ -156,7 +160,10 @@ namespace PixelCrushers.DialogueSystem
         {
             conversationEvents.onConversationLine.Invoke(subtitle);
         }
-
+        public void OnConversationLastLine(Subtitle subtitle)
+        {
+            conversationEvents.onConversationLastLine.Invoke(subtitle);
+        }
         public void OnConversationLineEnd(Subtitle subtitle)
         {
             conversationEvents.onConversationLineEnd.Invoke(subtitle);
