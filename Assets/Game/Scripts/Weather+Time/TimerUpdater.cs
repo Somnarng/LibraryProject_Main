@@ -1,6 +1,3 @@
-using MoreMountains.TopDownEngine;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -12,22 +9,20 @@ public class TimerUpdater : MonoBehaviour
     private void OnEnable()
     {
         SceneManager.sceneLoaded += UpdateTimeManager;
+        TimeManager.TimePassed += UpdateText;
     }
     private void OnDisable()
     {
         SceneManager.sceneLoaded -= UpdateTimeManager;
+        TimeManager.TimePassed -= UpdateText;
     }
     private void UpdateTimeManager(Scene scene, LoadSceneMode mode)
     {
-        TimeManager.Instance.TimerText = this;
-        TimeManager.Instance.UpdateTimerText();
+        UpdateText();
     }
-    public void UpdateText(string text)
+    private void UpdateText()
     {
-        Timer_Text.text = text;
-    }
-    public void UpdateDayText(string text)
-    {
-        Day_Text.text = text;
+        Timer_Text.text = TimeManager.Instance.currentTimeSlot.ToString();
+        Day_Text.text = TimeManager.Instance.currentDate;
     }
 }

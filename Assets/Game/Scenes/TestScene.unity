@@ -683,7 +683,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4703451067142162, guid: b6993e89d9af3f64182a41c77cf345c2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 19.514542
+      value: 22.964542
       objectReference: {fileID: 0}
     - target: {fileID: 4703451067142162, guid: b6993e89d9af3f64182a41c77cf345c2, type: 3}
       propertyPath: m_LocalPosition.y
@@ -10329,6 +10329,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 811728412045204550, guid: 58ac37417e60e534f91138088a3e6f70,
+        type: 3}
+      propertyPath: m_text
+      value: "Text\u200B"
+      objectReference: {fileID: 0}
     - target: {fileID: 860548684665539632, guid: 58ac37417e60e534f91138088a3e6f70,
         type: 3}
       propertyPath: m_Interactable
@@ -10377,7 +10382,7 @@ PrefabInstance:
     - target: {fileID: 3585401491179883489, guid: 58ac37417e60e534f91138088a3e6f70,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.000007748604
+      value: -0.00002026558
       objectReference: {fileID: 0}
     - target: {fileID: 4056609997978266417, guid: 58ac37417e60e534f91138088a3e6f70,
         type: 3}
@@ -10544,6 +10549,11 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 4428855245926108258, guid: 58ac37417e60e534f91138088a3e6f70,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4690055165850269539, guid: 58ac37417e60e534f91138088a3e6f70,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -10603,11 +10613,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5894481452787678594, guid: 58ac37417e60e534f91138088a3e6f70,
-        type: 3}
-      propertyPath: pcName.m_uiText
-      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7008708843507041881, guid: 58ac37417e60e534f91138088a3e6f70,
         type: 3}

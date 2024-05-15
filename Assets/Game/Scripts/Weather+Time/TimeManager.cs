@@ -14,7 +14,6 @@ public class TimeManager : Singleton<TimeManager>, IDataPersistence
 {
     public DayCycleHandler DayCycleHandler { get; set; }
     public WeatherSystem WeatherSystem { get; set; }
-    public TimerUpdater TimerText { get; set; }
 
     public static Action TimePassed;
 
@@ -41,8 +40,8 @@ public class TimeManager : Singleton<TimeManager>, IDataPersistence
     private int m_CurrentDayOfMonth = 1;
     private int m_CurrentMonthOfYear = 1;
     private int m_CurrentYear = 1;
-    //public int hourOfDay;
     public TimeSlot currentTimeSlot;
+    public string currentDate;
 
     //private int ratioMultiplier = 1;
 
@@ -65,10 +64,10 @@ public class TimeManager : Singleton<TimeManager>, IDataPersistence
 
     private void Start()
     {
-        TimerText = FindFirstObjectByType<TimerUpdater>();
         //m_CurrentTimeOfTheDay = StartingTime;
         currentTimeSlot = StartingTimeSlot;
-        UpdateTimerText();
+        currentDate = "Day:" + m_CurrentDayOfMonth + " Month:" + m_CurrentMonthOfYear + " Year:" + m_CurrentYear;
+        TimePassed?.Invoke();
     }
     private void Update()
     {
@@ -105,11 +104,6 @@ public class TimeManager : Singleton<TimeManager>, IDataPersistence
                 TimerText.UpdateText(CurrentTimeAsString());
             */
         }
-    }
-    public void UpdateTimerText()
-    {
-        TimerText.UpdateText(currentTimeSlot.ToString());
-        TimerText.UpdateDayText("Day:" + m_CurrentDayOfMonth + " Month:" + m_CurrentMonthOfYear + " Year:" + m_CurrentYear);
     }
 
     public void Pause()
@@ -154,9 +148,9 @@ public class TimeManager : Singleton<TimeManager>, IDataPersistence
             m_CurrentMonthOfYear = 1;
             m_CurrentYear++;
         }
-        Debug.Log("Day:" + m_CurrentDayOfMonth + " Month:" + m_CurrentMonthOfYear + " Year:" + m_CurrentYear);
-        TimerText.UpdateDayText("Day:" + m_CurrentDayOfMonth + " Month:" + m_CurrentMonthOfYear + " Year:" + m_CurrentYear);
+        currentDate = "Day:" + m_CurrentDayOfMonth + " Month:" + m_CurrentMonthOfYear + " Year:" + m_CurrentYear;
         UpdateDialogueVariables();
+        TimePassed?.Invoke();
         DataPersistenceManager.Instance.SaveGame();
     }
     public void ProgressTime() //call this function to progress to the next timeslot
@@ -183,7 +177,6 @@ public class TimeManager : Singleton<TimeManager>, IDataPersistence
                 break;
             default:
                 currentTimeSlot = TimeSlot.Morning;
-                UpdateTimerText();
                 CurrentDayRatio = 0.36f;
                 Debug.Log("ERROR, ENUM FOR TIMESLOT PROGRESSION BROKEN.");
                 break;
@@ -194,7 +187,6 @@ public class TimeManager : Singleton<TimeManager>, IDataPersistence
         {
             scene.NPCRoutineTimer = 0;
         }
-        TimerText.UpdateText(currentTimeSlot.ToString());
         DayCycleHandler.UpdateLight(CurrentDayRatio);
     }
 
