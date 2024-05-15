@@ -12,7 +12,6 @@ public class TimerUpdater : MonoBehaviour
     private void OnEnable()
     {
         SceneManager.sceneLoaded += UpdateTimeManager;
-        
     }
     private void OnDisable()
     {

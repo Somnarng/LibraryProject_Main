@@ -65,6 +65,7 @@ public class TimeManager : Singleton<TimeManager>, IDataPersistence
 
     private void Start()
     {
+        TimerText = FindFirstObjectByType<TimerUpdater>();
         //m_CurrentTimeOfTheDay = StartingTime;
         currentTimeSlot = StartingTimeSlot;
         UpdateTimerText();
@@ -177,6 +178,7 @@ public class TimeManager : Singleton<TimeManager>, IDataPersistence
             case TimeSlot.Evening:
                 currentTimeSlot = TimeSlot.Morning;
                 CurrentDayRatio = 0.36f;
+                ProgressDay();
                 Debug.Log("Day Passed!");
                 break;
             default:

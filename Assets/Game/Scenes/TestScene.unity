@@ -609,9 +609,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1034669465076532, guid: b6993e89d9af3f64182a41c77cf345c2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1087801730200022, guid: b6993e89d9af3f64182a41c77cf345c2, type: 3}
       propertyPath: m_Name
       value: Minimal2DCameras --------------------------------------------------------
+      objectReference: {fileID: 0}
+    - target: {fileID: 1644777657587184, guid: b6993e89d9af3f64182a41c77cf345c2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1712466994069930, guid: b6993e89d9af3f64182a41c77cf345c2, type: 3}
       propertyPath: m_IsActive
@@ -675,7 +683,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4703451067142162, guid: b6993e89d9af3f64182a41c77cf345c2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 22.964542
+      value: 19.514542
       objectReference: {fileID: 0}
     - target: {fileID: 4703451067142162, guid: b6993e89d9af3f64182a41c77cf345c2, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2666,7 +2674,7 @@ MonoBehaviour:
   interactable: 1
   interactText: Sleep
   timeToSet: 0
-  sleep: 0
+  sleep: 1
 --- !u!1001 &122508147
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -26410,6 +26418,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1536057614}
     m_Modifications:
+    - target: {fileID: 286001563056465523, guid: b83e87e27c06465409437a86da0934fb,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1160962816345714113, guid: b83e87e27c06465409437a86da0934fb,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -26473,6 +26486,11 @@ PrefabInstance:
     - target: {fileID: 1160962816345714113, guid: b83e87e27c06465409437a86da0934fb,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3364512157978935840, guid: b83e87e27c06465409437a86da0934fb,
+        type: 3}
+      propertyPath: interactable
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3364512157978935840, guid: b83e87e27c06465409437a86da0934fb,
