@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+using AuroraFPSRuntime.CoreModules.Pattern;
 public class DataPersistenceManager : Singleton<DataPersistenceManager>
 {
     [Header("File Storage Config")]
@@ -13,7 +13,7 @@ public class DataPersistenceManager : Singleton<DataPersistenceManager>
     private List<IDataPersistence> dataPersistenceObjects;
     private FileDataHandler dataHandler;
 
-    protected override void OnEnableCallback()
+    protected override void Awake()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
         this.dataHandler = new FileDataHandler(Application.persistentDataPath, fileName, useEncryption);

@@ -22,7 +22,7 @@ public class TimerUpdater : MonoBehaviour
     }
     private void UpdateText()
     {
-        Timer_Text.text = TimeManager.Instance.currentTimeSlot.ToString();
-        Day_Text.text = TimeManager.Instance.currentDate;
+        Timer_Text.text = TimeManager.GetRuntimeInstance().currentTimeSlot.ToString();
+        Day_Text.text = TimeManager.GetRuntimeInstance().currentDate;
     }
 }

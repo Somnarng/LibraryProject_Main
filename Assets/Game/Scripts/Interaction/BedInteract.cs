@@ -17,24 +17,20 @@ public class BedInteract : MonoBehaviour, IInteractable
     public IEnumerator Sleep()
     {
         Debug.Log("Sleep Triggered");
-        MMFadeInEvent.Trigger(0.5f, MMTweenType.DefaultEaseInCubic);
-        TimeManager.Instance.Pause();
-        TimeManager.Instance.ProgressDay();
-        TimeManager.Instance.SetTime(timeToSet);
+        MMFadeOutEvent.Trigger(0.5f, MMTweenType.DefaultEaseInCubic);
+        TimeManager.GetRuntimeInstance().ProgressDay();
+        TimeManager.GetRuntimeInstance().SetTime(timeToSet);
         yield return new WaitForSeconds(0.7f);
         MMFadeOutEvent.Trigger(0.5f, MMTweenType.DefaultEaseInCubic);
-        TimeManager.Instance.Resume();
         yield return null;
     }
 
     public IEnumerator DebugProgressTime() //used for debugging timeslot progression system
     {
         MMFadeInEvent.Trigger(0.5f, MMTweenType.DefaultEaseInCubic);
-        TimeManager.Instance.Pause();
         yield return new WaitForSeconds(0.7f);
-        TimeManager.Instance.ProgressTime();
+        TimeManager.GetRuntimeInstance().ProgressTime();
         MMFadeOutEvent.Trigger(0.5f, MMTweenType.DefaultEaseInCubic);
-        TimeManager.Instance.Resume();
         yield return null;
     }
 

@@ -24,7 +24,7 @@ public class WeatherSystem : MonoBehaviour
 
     private void Awake()
     {
-        TimeManager.Instance.WeatherSystem = this;
+        TimeManager.GetRuntimeInstance().WeatherSystem = this;
     }
 
     void Start()
@@ -49,7 +49,7 @@ public class WeatherSystem : MonoBehaviour
         else
         {
 #endif
-            TimeManager.Instance?.WeatherSystem?.m_Elements.Remove(element);
+            TimeManager.GetRuntimeInstance()?.WeatherSystem?.m_Elements.Remove(element);
 #if UNITY_EDITOR
         }
 #endif

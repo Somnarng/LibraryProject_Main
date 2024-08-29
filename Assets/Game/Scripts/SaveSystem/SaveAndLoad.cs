@@ -6,14 +6,14 @@ public class SaveAndLoad : MonoBehaviour
 {
     public void SaveData()
     {
-        DataPersistenceManager.Instance.SaveGame();
+        DataPersistenceManager.GetRuntimeInstance().SaveGame();
     }
     public void LoadData()
     {
-        DataPersistenceManager.Instance.LoadGame();
+        DataPersistenceManager.GetRuntimeInstance().LoadGame();
     } 
     public void NewData()
     {
-        DataPersistenceManager.Instance.NewGame();
+        DataPersistenceManager.GetRuntimeInstance().NewGame();
     }
 }

@@ -19,11 +19,6 @@ public class PlayerStats
     public List<BookScript> BooksInInventory;
     public List<ShelfData> ShelfData;
 
-    public List<GameFlag> GlobalFlags;
-    public List<SceneModel> Scenes;
-    public List<NPCStateModel> NPCS;
-    public SceneModel Scene;
-
     public PlayerStats()
     { //sets default values
         this.playerName = "Default";
@@ -36,10 +31,5 @@ public class PlayerStats
         this.UnsortedBooks = new List<BookScript>();
         this.BooksInInventory = new List<BookScript>();
         this.ShelfData = new List<ShelfData>();
-
-        this.GlobalFlags = new List<GameFlag>();
-        this.Scenes = new List<SceneModel>();
-        this.NPCS = new List<NPCStateModel>();
-        this.Scene = new SceneModel();
     }
 }
