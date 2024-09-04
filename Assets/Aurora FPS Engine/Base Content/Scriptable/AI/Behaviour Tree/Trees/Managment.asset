@@ -41,7 +41,8 @@ MonoBehaviour:
   - {fileID: 3524716710415235370}
   groups: []
   references:
-    version: 1
+    version: 2
+    RefIds: []
 --- !u!114 &3524716710415235370
 MonoBehaviour:
   m_ObjectHideFlags: 0

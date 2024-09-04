@@ -63,6 +63,7 @@ namespace AuroraFPSRuntime.AIModules
         {
             if (navMeshAgent.enabled)
             {
+                navMeshAgent.ResetPath();
                 navMeshAgent.SetDestination(position);
             }
         }

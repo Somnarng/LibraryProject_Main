@@ -56,7 +56,7 @@ MonoBehaviour:
     keys:
     - transform
     values:
-    - id: 0
+    - rid: 0
   nodes:
   - {fileID: -8107752681379450880}
   - {fileID: -4635021732526429640}
@@ -65,8 +65,9 @@ MonoBehaviour:
   - {fileID: 134910285958252030}
   groups: []
   references:
-    version: 1
-    00000000:
+    version: 2
+    RefIds:
+    - rid: 0
       type: {class: TransformVariable, ns: AuroraFPSRuntime.AIModules.BehaviourTree.Variables,
         asm: Assembly-CSharp}
       data:

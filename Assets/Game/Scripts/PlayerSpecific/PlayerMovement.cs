@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] private float speed = 5f;          // Movement speed of the player
-    private Rigidbody2D rb;                             // Reference to the Rigidbody2D component
-    private float moveInput;                            // Horizontal input value
+    [SerializeField] private float speed = 5f;          
+    private Rigidbody2D rb;                             
+    private float moveInput;                            
 
     private void Start()
     {
